@@ -4,180 +4,383 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sathvik | Full-Stack Developer & AI Enthusiast</title>
+    <title>Gannoji Sathvik | Full-Stack Developer & AI Enthusiast</title>
     <meta name="description"
-        content="Portfolio of Sathvik, a Full-Stack Developer and AI Enthusiast building efficient, privacy-focused solutions.">
+        content="Portfolio of Gannoji Sathvik - Full-Stack Developer and AI Enthusiast building efficient, privacy-focused solutions.">
 
-    <!-- Google Fonts: Inter -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <!-- Ambient Background Effects -->
+    <div class="ambient-glow"></div>
+    <div class="noise-overlay"></div>
 
-    <!-- Dynamic Background & Fixed Elements -->
-    <canvas id="bg-canvas"></canvas>
-    <div class="gradient-overlay"></div>
-    <!-- Cursor Spotlight -->
-    <div id="cursor-glow"></div>
+    <!-- Minimal Header -->
+    <header class="minimal-header">
+        <a href="#" class="logo">
+            <svg class="logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 5L35 15V25L20 35L5 25V15L20 5Z" stroke="currentColor" stroke-width="1.5" fill="none" />
+                <circle cx="20" cy="20" r="4" fill="currentColor" />
+            </svg>
+            <span>Gannoji Sathvik</span>
+        </a>
 
-    <header>
-        <nav>
-            <a href="#hero" class="logo">SATHVIK<span class="dot">.</span>DEV</a>
-            <div class="nav-links">
-                <a href="#about" class="nav-item">ABOUT</a>
-                <a href="#work" class="nav-item">WORK</a>
-                <a href="#contact" class="nav-item">CONTACT</a>
-            </div>
-        </nav>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+            <span></span>
+            <span></span>
+        </button>
     </header>
 
-    <!-- Smooth Scroll Wrapper -->
-    <main id="smooth-wrapper">
-        <div id="smooth-content">
+    <!-- Slide-Out Navigation Panel -->
+    <nav class="nav-panel" id="nav-panel">
+        <div class="nav-overlay" id="nav-overlay"></div>
+        <div class="nav-content">
+            <button class="nav-close" id="nav-close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
 
-            <!-- HERO SECTION -->
-            <section id="hero">
-                <div class="container parallax-container">
-                    <h1 class="hero-title reveal-text flashlight-text" data-value="SATHVIK | SOFTWARE & ML ENGINEER">
-                        SATHVIK <span class="pipe">|</span> SOFTWARE & ML ENGINEER</h1>
+            <ul class="nav-links">
+                <li>
+                    <a href="#skills" class="nav-link">
+                        <span>SKILLS</span>
+                        <div class="nav-bubble"></div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#projects" class="nav-link">
+                        <span>PROJECTS</span>
+                        <div class="nav-bubble"></div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#about" class="nav-link">
+                        <span>ABOUT</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#contact" class="nav-link has-dot">
+                        <span>CONTACT</span>
+                        <div class="nav-dot"></div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-                    <!-- Tagline with typing effect -->
-                    <p class="hero-subtitle" id="typing-text"></p>
-                    <!-- Hidden source text for typer -->
-                    <span id="typing-source" style="display:none;">3rd-year CS Student at Woxsen University. Building
-                        efficient, cloud-scalable AI solutions.</span>
+    <main>
+        <!-- HERO SECTION -->
+        <section id="hero" class="full-page">
+            <!-- Floating Geometric Shards Animation -->
+            <div class="shards-container">
+                <div class="shard shard-1"></div>
+                <div class="shard shard-2"></div>
+                <div class="shard shard-3"></div>
+                <div class="shard shard-4"></div>
+                <div class="shard shard-5"></div>
+                <div class="shard shard-6"></div>
+                <div class="shard shard-7"></div>
+                <div class="shard shard-8"></div>
+                <div class="shard shard-9"></div>
+                <div class="shard shard-10"></div>
+                <div class="shard shard-11"></div>
+                <div class="shard shard-12"></div>
+            </div>
 
-                    <div class="scroll-indicator fade-in">
-                        <a href="#about" class="scroll-btn">EXPLORE</a>
-                    </div>
+            <!-- Volumetric Red Light -->
+            <div class="volumetric-light"></div>
+            <div class="hero-split">
+                <div class="hero-left">
+                    <p class="hero-tagline">
+                        ADVANCING AI RESEARCH<br>
+                        AND DEVELOPMENT WITH<br>
+                        PRIVACY AT THE<br>
+                        FOREFRONT.
+                    </p>
+                    <a href="#about" class="cta-button hero-cta">
+                        <span>GET STARTED</span>
+                    </a>
                 </div>
-            </section>
 
-            <!-- TEXT SWAP INTERACTION (Replaces Marquee) -->
-            <div class="emphasis-banner fade-in" style="background: transparent; box-shadow: none; padding: 4rem 0;">
-                <div class="container" style="text-align: center;">
-                    <!-- The specific ID requested by user reference -->
-                    <h2 id="sans-eng"
-                        style="font-size: 3.5rem; cursor: pointer; text-transform: uppercase; font-weight: 800; -webkit-text-stroke: 1px rgba(255,255,255,0.5); color: transparent; transition: all 0.3s ease;">
-                        KRITRIMA BUDDHIMATTĀ</h2>
-                    <p
-                        style="font-size: 0.9rem; color: var(--secondary-text); margin-top: 1rem; letter-spacing: 0.2em;">
-                        HOVER TO TRANSLATE</p>
+                <div class="hero-right">
+                    <h1 class="hero-huge-title" id="hero-title">
+                        GANNOJI<br>SATHVIK
+                    </h1>
                 </div>
             </div>
 
-            <!-- ABOUT SECTION -->
-            <section id="about" class="fade-in-section">
-                <div class="container">
-                    <h2 class="section-title reveal-text hacker-text" data-value="ABOUT">ABOUT</h2>
-                    <div class="about-content">
-                        <div class="text-block fade-in-up">
-                            <p class="large-text">
-                                I am a focused Computer Science student bridging the gap between <span
-                                    class="highlight">CORE CS FUNDAMENTALS</span> and <span class="highlight">MODERN
-                                    AI/ML</span>.
-                            </p>
-                            <br>
-                            <p>
-                                Currently a 3rd-year student at Woxsen University, I prefer practical, problem-driven
-                                learning.
-                                While I am an introvert by nature, I am highly consistent and committed to building
-                                strong, efficient systems.
-                                My goal is to engineer scalable solutions at top-tier tech benchmarks.
-                            </p>
-                        </div>
-                        <div class="education-block fade-in-up" style="transition-delay: 0.2s;">
-                            <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--accent-color);">EDUCATION
-                            </h3>
-                            <p style="font-weight: 700;">B.Tech in Computer Science Engineering</p>
-                            <p style="color: var(--secondary-text);">Woxsen University, India (3rd Year)</p>
-                        </div>
-                    </div>
+            <div class="hero-scroll-indicator">
+                <span class="scroll-arrow-down">↓</span>
+            </div>
+        </section>
 
-                    <div class="attributes-list fade-in-up" style="transition-delay: 0.4s;">
-                        <span class="attribute">PYTHON</span>
-                        <span class="attribute">JAVA</span>
-                        <span class="attribute">DSA</span>
-                        <span class="attribute">AWS</span>
-                        <span class="attribute">ML/AI</span>
-                        <span class="attribute">MYSQL</span>
-                        <span class="attribute">NOSQL</span>
-                        <span class="attribute">SYSTEMS</span>
-                        <span class="attribute">CONSISTENT</span>
-                        <span class="attribute">PROBLEM-SOLVER</span>
-                    </div>
+        <!-- ABOUT SECTION - Full Page with Background Text -->
+        <section id="about" class="full-page reveal-section">
+            <!-- Large Background Text -->
+            <div class="bg-text-container">
+                <span class="bg-text-line reveal-text" data-delay="0">SAFETY.PRIVACY</span>
+                <span class="bg-text-line reveal-text" data-delay="1">BY HUMANS.FOR</span>
+                <span class="bg-text-line reveal-text" data-delay="2">HUMANITY</span>
+            </div>
+
+            <!-- Floating Orb -->
+            <div class="floating-orb">
+                <div class="orb-glow"></div>
+            </div>
+
+            <div class="container about-container">
+                <div class="section-header">
+                    <span class="section-label">—— ABOUT</span>
                 </div>
-            </section>
 
-            <!-- PROJECTS SECTION -->
-            <section id="work" class="fade-in-section">
-                <div class="container">
-                    <h2 class="section-title reveal-text hacker-text" data-value="KEY PROJECTS">KEY PROJECTS</h2>
-                    <div class="testimonials-grid">
-                        <!-- Project 1 -->
-                        <div class="testimonial-card fade-in-up">
-                            <div class="stars">★★★★★</div>
-                            <h3 style="font-size: 1.5rem; margin-bottom: 1rem; font-weight: 800;">CLOUD AUTO-SCALING
-                            </h3>
-                            <blockquote>
-                                "An ML-based system that predicts resource usage and automatically scales cloud
-                                resources. Built on AWS Free Tier for maximum efficiency and cost optimization."
-                            </blockquote>
-                            <cite>TECH: AWS • MACHINE LEARNING • PYTHON</cite>
-                        </div>
-                        <!-- Project 2 -->
-                        <div class="testimonial-card fade-in-up" style="transition-delay: 0.2s;">
-                            <div class="stars">★★★★★</div>
-                            <h3 style="font-size: 1.5rem; margin-bottom: 1rem; font-weight: 800;">SENTIMENT ANALYSIS
-                            </h3>
-                            <blockquote>
-                                "Real-time analysis of live X (Twitter) posts on trending topics like tech and climate.
-                                Leverages NLP and cloud architecture for live insights."
-                            </blockquote>
-                            <cite>TECH: NLP • CLOUD • LIVE DATA API</cite>
-                        </div>
-                        <!-- Project 3 -->
-                        <div class="testimonial-card fade-in-up" style="transition-delay: 0.4s;">
-                            <div class="stars">★★★★★</div>
-                            <h3 style="font-size: 1.5rem; margin-bottom: 1rem; font-weight: 800;">ASPM PLATFORM</h3>
-                            <blockquote>
-                                "AI-Powered Application Security Posture Management. Focuses on vulnerability visibility
-                                and risk insights. A working prototype for modern security needs."
-                            </blockquote>
-                            <cite>TECH: AI • SECURITY • FULL-STACK</cite>
+                <div class="about-grid">
+                    <div class="about-main reveal-content">
+                        <h2 class="about-title">
+                            I am a focused Computer Science student bridging the gap between
+                            <span class="highlight">CORE CS FUNDAMENTALS</span> and
+                            <span class="highlight">MODERN AI/ML</span>.
+                        </h2>
+                        <p class="about-body">
+                            Currently a 3rd-year student at Woxsen University. I prefer practical, problem-driven
+                            learning.
+                            While I am an introvert by nature, I am highly consistent and committed to building
+                            strong, efficient systems. My goal is to engineer scalable solutions at top-tier tech
+                            benchmarks.
+                        </p>
+                    </div>
+
+                    <div class="about-sidebar reveal-content" data-delay="200">
+                        <div class="education-card">
+                            <h3 class="card-label">EDUCATION</h3>
+                            <p class="card-title">B.Tech in Computer Science Engineering</p>
+                            <p class="card-subtitle">Woxsen University, India (3rd Year)</p>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- CONTACT SECTION -->
-            <section id="contact" class="fade-in-section">
-                <div class="container">
-                    <h2 class="section-title reveal-text hacker-text" data-value="GET IN TOUCH">GET IN TOUCH</h2>
-                    <p class="contact-text fade-in-up">READY TO BUILD SOMETHING EFFICIENT? LET'S CONNECT.</p>
-                    <div class="cta-wrapper fade-in-up" style="transition-delay: 0.2s;">
-                        <a href="mailto:gannojisathvik24@gmail.com" class="cta-button">LET'S TALK</a>
+        <!-- SKILLS SECTION - Full Page -->
+        <section id="skills" class="full-page">
+            <div class="skills-orbit-container">
+                <div class="skills-center">
+                    <h2 class="skills-center-text">
+                        Tech<br>Skills<span class="dot">.</span>
+                    </h2>
+                </div>
+
+                <div class="skills-orbit">
+                    <div class="skill-bubble" style="--i: 0;"><span>PYTHON</span></div>
+                    <div class="skill-bubble" style="--i: 1;"><span>JavaScript</span></div>
+                    <div class="skill-bubble" style="--i: 2;"><span>AWS</span></div>
+                    <div class="skill-bubble" style="--i: 3;"><span>ML/AI</span></div>
+                    <div class="skill-bubble" style="--i: 4;"><span>DSA</span></div>
+                    <div class="skill-bubble" style="--i: 5;"><span>PERN</span></div>
+                    <div class="skill-bubble" style="--i: 6;"><span>Git</span></div>
+                    <div class="skill-bubble" style="--i: 7;"><span>Selenium</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECTS SECTION - Full Page with New Circle -->
+        <section id="projects" class="full-page">
+            <div class="projects-header">
+                <h2 class="projects-main-title reveal-content">
+                    THE FASTEST<br>
+                    WAY TO ADAPT<br>
+                    AND SCALE <span class="highlight-word">AI</span><br>
+                    TECHNOLOGY
+                </h2>
+            </div>
+
+            <!-- New BrahmAI-Style Circle -->
+            <div class="brahmai-circle-container">
+                <!-- Side Button Left -->
+                <div class="side-pill left">
+                    <span>AUTOMATION</span>
+                </div>
+
+                <!-- Main Circle -->
+                <div class="brahmai-circle">
+                    <!-- Gradient Ring -->
+                    <svg class="gradient-ring" viewBox="0 0 300 300">
+                        <defs>
+                            <linearGradient id="circleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#666666;stop-opacity:1" />
+                                <stop offset="25%" style="stop-color:#888888;stop-opacity:1" />
+                                <stop offset="50%" style="stop-color:#ff6b6b;stop-opacity:1" />
+                                <stop offset="75%" style="stop-color:#ffa500;stop-opacity:1" />
+                                <stop offset="85%" style="stop-color:#00ff88;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <circle cx="150" cy="150" r="140" fill="none" stroke="url(#circleGradient)" stroke-width="4"
+                            stroke-linecap="round" class="ring-path" />
+                    </svg>
+
+                    <!-- Rays -->
+                    <div class="circle-rays-container">
+                        <div class="ray"></div>
+                        <div class="ray"></div>
+                        <div class="ray"></div>
+                        <div class="ray"></div>
+                        <div class="ray"></div>
+                        <div class="ray"></div>
+                        <div class="ray"></div>
+                        <div class="ray"></div>
+                        <div class="ray"></div>
+                        <div class="ray"></div>
+                        <div class="ray"></div>
+                        <div class="ray"></div>
                     </div>
-                    <div class="social-links fade-in-up" style="transition-delay: 0.4s;">
-                        <a href="#" target="_blank" class="hover-underline">LINKEDIN</a>
-                        <a href="#" target="_blank" class="hover-underline">GITHUB</a>
-                        <a href="mailto:gannojisathvik24@gmail.com" class="hover-underline">EMAIL</a>
+
+                    <!-- Inner Content -->
+                    <div class="circle-center">
+                        <div class="center-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="5" y="3" width="14" height="18" rx="2" />
+                                <line x1="9" y1="8" x2="15" y2="8" />
+                                <line x1="9" y1="12" x2="15" y2="12" />
+                            </svg>
+                        </div>
+                        <div class="center-stat">
+                            <span class="stat-number">24</span>
+                            <span class="stat-sub">/7</span>
+                        </div>
+                    </div>
+
+                    <!-- Glowing Dot -->
+                    <div class="orbit-dot"></div>
+                </div>
+
+                <!-- Side Button Right -->
+                <div class="side-pill right">
+                    <span>SECURITY</span>
+                </div>
+            </div>
+
+            <!-- Project Pills -->
+            <div class="projects-scroll-track">
+                <div class="projects-scroll-content">
+                    <button class="project-pill" data-project="1"><span>WEB AUTOMATION BOT</span></button>
+                    <button class="project-pill" data-project="2"><span>AI RED TEAM FRAMEWORK</span></button>
+                    <button class="project-pill" data-project="3"><span>CLOUD STORAGE SYSTEM</span></button>
+                    <button class="project-pill" data-project="1"><span>WEB AUTOMATION BOT</span></button>
+                    <button class="project-pill" data-project="2"><span>AI RED TEAM FRAMEWORK</span></button>
+                    <button class="project-pill" data-project="3"><span>CLOUD STORAGE SYSTEM</span></button>
+                </div>
+            </div>
+
+            <a href="#contact" class="cta-button centered glass-btn">
+                <span>GET STARTED</span>
+            </a>
+
+            <!-- Project Modal -->
+            <div class="project-modal" id="project-modal">
+                <div class="modal-overlay"></div>
+                <div class="modal-content">
+                    <button class="modal-close">&times;</button>
+                    <h3 class="modal-title" id="modal-title">Project Title</h3>
+                    <p class="modal-desc" id="modal-desc">Project description goes here...</p>
+                    <div class="modal-tech" id="modal-tech"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section id="contact" class="full-page lets-talk-section">
+            <div class="tech-grid-bg"></div>
+
+            <div class="contact-content">
+                <p class="contact-subtitle">Time back and less stress daily, so you can deliver your creative best.</p>
+                <h2 class="contact-huge-title">LET'S<br>TALK</h2>
+
+                <div class="floating-sphere">
+                    <div class="sphere-glow"></div>
+                    <div class="sphere-inner">
+                        <span class="sphere-arrow">↗</span>
                     </div>
                 </div>
-            </section>
 
-            <footer>
-                <div class="container">
-                    <p>&copy; 2026 SATHVIK. BY HUMANS. FOR THE FUTURE.</p>
-                    <button id="back-to-top" aria-label="Back to top">↑</button>
+                <div class="contact-dot"></div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="premium-footer">
+            <div class="footer-divider"></div>
+
+            <div class="footer-content">
+                <div class="footer-left">
+                    <a href="#" class="footer-logo">
+                        <svg class="logo-icon" viewBox="0 0 40 40" fill="none">
+                            <path d="M20 5L35 15V25L20 35L5 25V15L20 5Z" stroke="currentColor" stroke-width="1.5"
+                                fill="none" />
+                            <circle cx="20" cy="20" r="4" fill="currentColor" />
+                        </svg>
+                        <span>Gannoji Sathvik</span>
+                    </a>
+                    <div class="newsletter-box">
+                        <input type="email" placeholder="Sign up for newsletter" class="newsletter-input">
+                        <button class="newsletter-btn">→</button>
+                    </div>
                 </div>
-            </footer>
-        </div> <!-- End Smooth Content -->
-    </main> <!-- End Smooth Wrapper -->
+
+                <div class="footer-center">
+                    <div class="footer-links-col">
+                        <a href="#about">ABOUT</a>
+                        <a href="#skills">SKILLS</a>
+                        <a href="#projects">PROJECTS</a>
+                        <a href="#contact">CONTACT</a>
+                    </div>
+                </div>
+
+                <div class="footer-right">
+                    <div class="social-icons">
+                        <a href="https://github.com" target="_blank" class="social-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12" />
+                            </svg>
+                        </a>
+                        <a href="https://linkedin.com" target="_blank" class="social-icon">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
+                            </svg>
+                        </a>
+                        <a href="mailto:gannojisathvik24@gmail.com" class="social-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="4" width="20" height="16" rx="2" />
+                                <path d="M22 6l-10 7L2 6" />
+                            </svg>
+                        </a>
+                    </div>
+
+                    <div class="footer-cta-wrapper">
+                        <a href="mailto:gannojisathvik24@gmail.com" class="cta-button footer-cta">
+                            <span>LET'S TALK</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2026 Gannoji Sathvik®</p>
+                <p>BY HUMANS. FOR THE FUTURE.</p>
+            </div>
+        </footer>
+    </main>
 
     <script src="script.js"></script>
 </body>
