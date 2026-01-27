@@ -618,9 +618,28 @@ a {
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.hero-right {
-    flex: 1;
-    text-align: right;
+.hero-left,
+.hero-right,
+.hero-scroll-indicator {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1.2s cubic-bezier(0.19, 1, 0.22, 1), transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.hero-left.visible,
+.hero-right.visible,
+.hero-scroll-indicator.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Specific delay for right side */
+.hero-right.visible {
+    transition-delay: 0.2s;
+}
+
+.hero-scroll-indicator.visible {
+    transition-delay: 0.6s;
 }
 
 .hero-huge-title {
