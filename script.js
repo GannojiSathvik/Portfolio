@@ -134,8 +134,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Scroll arrow click
-    const scrollArrow = document.querySelector('.scroll-arrow-down');
+    // Scroll arrow click (Brahma arrow icon)
+    const scrollArrow = document.querySelector('.scroll-arrow-icon');
     if (scrollArrow) {
         scrollArrow.addEventListener('click', () => {
             const about = document.getElementById('about');
@@ -186,17 +186,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- HERO ENTRANCE ANIMATION ---
+    // --- HERO ENTRANCE ANIMATION (Brahma-style expo easing) ---
     const animateHero = () => {
         const heroLeft = document.querySelector('.hero-left');
         const heroRight = document.querySelector('.hero-right');
+        const scrollIndicator = document.querySelector('.hero-scroll-indicator');
+
+        // Brahma uses 'expo' easing - approximated with cubic-bezier
+        const expoEase = 'cubic-bezier(0.19, 1, 0.22, 1)';
 
         if (heroLeft) {
             heroLeft.style.opacity = '0';
-            heroLeft.style.transform = 'translateY(30px)';
+            heroLeft.style.transform = 'translateY(40px)';
 
             setTimeout(() => {
-                heroLeft.style.transition = 'opacity 1s ease, transform 1s ease';
+                heroLeft.style.transition = `opacity 1.2s ${expoEase}, transform 1.2s ${expoEase}`;
                 heroLeft.style.opacity = '1';
                 heroLeft.style.transform = 'translateY(0)';
             }, 200);
@@ -204,13 +208,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (heroRight) {
             heroRight.style.opacity = '0';
-            heroRight.style.transform = 'translateY(30px)';
+            heroRight.style.transform = 'translateY(40px)';
 
             setTimeout(() => {
-                heroRight.style.transition = 'opacity 1s ease, transform 1s ease';
+                heroRight.style.transition = `opacity 1.2s ${expoEase}, transform 1.2s ${expoEase}`;
                 heroRight.style.opacity = '1';
                 heroRight.style.transform = 'translateY(0)';
             }, 400);
+        }
+
+        // Animate scroll indicator last
+        if (scrollIndicator) {
+            scrollIndicator.style.opacity = '0';
+            scrollIndicator.style.transform = 'translateX(-50%) translateY(20px)';
+
+            setTimeout(() => {
+                scrollIndicator.style.transition = `opacity 0.8s ${expoEase}, transform 0.8s ${expoEase}`;
+                scrollIndicator.style.opacity = '1';
+                scrollIndicator.style.transform = 'translateX(-50%) translateY(0)';
+            }, 800);
         }
     };
 
