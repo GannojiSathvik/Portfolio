@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sathvik | Full-Stack Developer & AI Enthusiast</title>
+    <meta name="description"
+        content="Portfolio of Sathvik, a Full-Stack Developer and AI Enthusiast building efficient, privacy-focused solutions.">
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Dynamic Background & Fixed Elements -->
+    <canvas id="bg-canvas"></canvas>
+    <div class="gradient-overlay"></div>
+    <!-- Cursor Spotlight -->
+    <div id="cursor-glow"></div>
+
+    <header>
+        <nav>
+            <a href="#hero" class="logo">SATHVIK<span class="dot">.</span>DEV</a>
+            <div class="nav-links">
+                <a href="#about" class="nav-item">ABOUT</a>
+                <a href="#work" class="nav-item">WORK</a>
+                <a href="#contact" class="nav-item">CONTACT</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Smooth Scroll Wrapper -->
+    <main id="smooth-wrapper">
+        <div id="smooth-content">
+
+            <!-- HERO SECTION -->
+            <section id="hero">
+                <div class="container parallax-container">
+                    <h1 class="hero-title reveal-text flashlight-text" data-value="SATHVIK | SOFTWARE & ML ENGINEER">
+                        SATHVIK <span class="pipe">|</span> SOFTWARE & ML ENGINEER</h1>
+
+                    <!-- Tagline with typing effect -->
+                    <p class="hero-subtitle" id="typing-text"></p>
+                    <!-- Hidden source text for typer -->
+                    <span id="typing-source" style="display:none;">3rd-year CS Student at Woxsen University. Building
+                        efficient, cloud-scalable AI solutions.</span>
+
+                    <div class="scroll-indicator fade-in">
+                        <a href="#about" class="scroll-btn">EXPLORE</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TEXT SWAP INTERACTION (Replaces Marquee) -->
+            <div class="emphasis-banner fade-in" style="background: transparent; box-shadow: none; padding: 4rem 0;">
+                <div class="container" style="text-align: center;">
+                    <!-- The specific ID requested by user reference -->
+                    <h2 id="sans-eng"
+                        style="font-size: 3.5rem; cursor: pointer; text-transform: uppercase; font-weight: 800; -webkit-text-stroke: 1px rgba(255,255,255,0.5); color: transparent; transition: all 0.3s ease;">
+                        KRITRIMA BUDDHIMATTĀ</h2>
+                    <p
+                        style="font-size: 0.9rem; color: var(--secondary-text); margin-top: 1rem; letter-spacing: 0.2em;">
+                        HOVER TO TRANSLATE</p>
+                </div>
+            </div>
+
+            <!-- ABOUT SECTION -->
+            <section id="about" class="fade-in-section">
+                <div class="container">
+                    <h2 class="section-title reveal-text hacker-text" data-value="ABOUT">ABOUT</h2>
+                    <div class="about-content">
+                        <div class="text-block fade-in-up">
+                            <p class="large-text">
+                                I am a focused Computer Science student bridging the gap between <span
+                                    class="highlight">CORE CS FUNDAMENTALS</span> and <span class="highlight">MODERN
+                                    AI/ML</span>.
+                            </p>
+                            <br>
+                            <p>
+                                Currently a 3rd-year student at Woxsen University, I prefer practical, problem-driven
+                                learning.
+                                While I am an introvert by nature, I am highly consistent and committed to building
+                                strong, efficient systems.
+                                My goal is to engineer scalable solutions at top-tier tech benchmarks.
+                            </p>
+                        </div>
+                        <div class="education-block fade-in-up" style="transition-delay: 0.2s;">
+                            <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--accent-color);">EDUCATION
+                            </h3>
+                            <p style="font-weight: 700;">B.Tech in Computer Science Engineering</p>
+                            <p style="color: var(--secondary-text);">Woxsen University, India (3rd Year)</p>
+                        </div>
+                    </div>
+
+                    <div class="attributes-list fade-in-up" style="transition-delay: 0.4s;">
+                        <span class="attribute">PYTHON</span>
+                        <span class="attribute">JAVA</span>
+                        <span class="attribute">DSA</span>
+                        <span class="attribute">AWS</span>
+                        <span class="attribute">ML/AI</span>
+                        <span class="attribute">MYSQL</span>
+                        <span class="attribute">NOSQL</span>
+                        <span class="attribute">SYSTEMS</span>
+                        <span class="attribute">CONSISTENT</span>
+                        <span class="attribute">PROBLEM-SOLVER</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PROJECTS SECTION -->
+            <section id="work" class="fade-in-section">
+                <div class="container">
+                    <h2 class="section-title reveal-text hacker-text" data-value="KEY PROJECTS">KEY PROJECTS</h2>
+                    <div class="testimonials-grid">
+                        <!-- Project 1 -->
+                        <div class="testimonial-card fade-in-up">
+                            <div class="stars">★★★★★</div>
+                            <h3 style="font-size: 1.5rem; margin-bottom: 1rem; font-weight: 800;">CLOUD AUTO-SCALING
+                            </h3>
+                            <blockquote>
+                                "An ML-based system that predicts resource usage and automatically scales cloud
+                                resources. Built on AWS Free Tier for maximum efficiency and cost optimization."
+                            </blockquote>
+                            <cite>TECH: AWS • MACHINE LEARNING • PYTHON</cite>
+                        </div>
+                        <!-- Project 2 -->
+                        <div class="testimonial-card fade-in-up" style="transition-delay: 0.2s;">
+                            <div class="stars">★★★★★</div>
+                            <h3 style="font-size: 1.5rem; margin-bottom: 1rem; font-weight: 800;">SENTIMENT ANALYSIS
+                            </h3>
+                            <blockquote>
+                                "Real-time analysis of live X (Twitter) posts on trending topics like tech and climate.
+                                Leverages NLP and cloud architecture for live insights."
+                            </blockquote>
+                            <cite>TECH: NLP • CLOUD • LIVE DATA API</cite>
+                        </div>
+                        <!-- Project 3 -->
+                        <div class="testimonial-card fade-in-up" style="transition-delay: 0.4s;">
+                            <div class="stars">★★★★★</div>
+                            <h3 style="font-size: 1.5rem; margin-bottom: 1rem; font-weight: 800;">ASPM PLATFORM</h3>
+                            <blockquote>
+                                "AI-Powered Application Security Posture Management. Focuses on vulnerability visibility
+                                and risk insights. A working prototype for modern security needs."
+                            </blockquote>
+                            <cite>TECH: AI • SECURITY • FULL-STACK</cite>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CONTACT SECTION -->
+            <section id="contact" class="fade-in-section">
+                <div class="container">
+                    <h2 class="section-title reveal-text hacker-text" data-value="GET IN TOUCH">GET IN TOUCH</h2>
+                    <p class="contact-text fade-in-up">READY TO BUILD SOMETHING EFFICIENT? LET'S CONNECT.</p>
+                    <div class="cta-wrapper fade-in-up" style="transition-delay: 0.2s;">
+                        <a href="mailto:gannojisathvik24@gmail.com" class="cta-button">LET'S TALK</a>
+                    </div>
+                    <div class="social-links fade-in-up" style="transition-delay: 0.4s;">
+                        <a href="#" target="_blank" class="hover-underline">LINKEDIN</a>
+                        <a href="#" target="_blank" class="hover-underline">GITHUB</a>
+                        <a href="mailto:gannojisathvik24@gmail.com" class="hover-underline">EMAIL</a>
+                    </div>
+                </div>
+            </section>
+
+            <footer>
+                <div class="container">
+                    <p>&copy; 2026 SATHVIK. BY HUMANS. FOR THE FUTURE.</p>
+                    <button id="back-to-top" aria-label="Back to top">↑</button>
+                </div>
+            </footer>
+        </div> <!-- End Smooth Content -->
+    </main> <!-- End Smooth Wrapper -->
+
+    <script src="script.js"></script>
+</body>
+
+</html>
