@@ -383,6 +383,97 @@ a {
     overflow: hidden;
 }
 
+/* Video Background */
+.video-container {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.hero-video-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.25;
+    /* Visible but dark */
+    transition: transform 0.1s ease-out;
+    transform-origin: center center;
+    scale: 1.1;
+    filter: grayscale(0.5) contrast(1.1) brightness(0.6);
+}
+
+.video-overlay {
+    position: absolute;
+    inset: 0;
+    /* Heavy vignette to hide split and focus center */
+    background: radial-gradient(circle at center,
+            rgba(50, 10, 20, 0.3) 0%,
+            rgba(5, 5, 5, 0.95) 75%,
+            #000000 100%);
+    z-index: 1;
+    mix-blend-mode: normal;
+}
+
+/* Main Title Style - Forced White */
+.hero-huge-title {
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 700;
+    line-height: 0.9;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+    color: #ffffff;
+    /* WHITE TEXT */
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 2;
+}
+
+.hero-left p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.1rem;
+    max-width: 400px;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+/* Video Background */
+.video-container {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.hero-video-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.25;
+    /* Visible but dark */
+    transition: transform 0.1s ease-out;
+    transform-origin: center center;
+    scale: 1.1;
+    filter: grayscale(0.5) contrast(1.1) brightness(0.6);
+}
+
+.video-overlay {
+    position: absolute;
+    inset: 0;
+    /* Heavy vignette to hide split and focus center */
+    background: radial-gradient(circle at center,
+            rgba(50, 10, 20, 0.3) 0%,
+            rgba(5, 5, 5, 0.95) 75%,
+            #000000 100%);
+    z-index: 1;
+    mix-blend-mode: normal;
+}
+
 /* Volumetric Red Light */
 .volumetric-light {
     position: absolute;
@@ -606,7 +697,8 @@ a {
     font-size: 1rem;
     font-weight: 500;
     line-height: 1.8;
-    color: var(--text-secondary);
+    color: #ffffff;
+    /* Updated to white as requested */
     margin-bottom: 2.5rem;
 }
 
@@ -623,16 +715,7 @@ a {
     text-align: right;
 }
 
-.hero-huge-title {
-    font-family: var(--font-display);
-    font-size: clamp(4rem, 10vw, 8rem);
-    font-weight: 400;
-    line-height: 1;
-    letter-spacing: 0.02em;
-    text-align: right;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
+
 
 .hero-huge-title:hover {
     color: var(--accent-color);
@@ -1449,6 +1532,44 @@ a {
 .lets-talk-section {
     position: relative;
     overflow: hidden;
+    /* Ensure background is dark in case video is loading */
+    background: var(--bg-primary);
+}
+
+/* Gradient blend to remove hard line/split between sections */
+.lets-talk-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(to bottom, var(--bg-primary) 0%, transparent 100%);
+    z-index: 5;
+    pointer-events: none;
+}
+
+.contact-video-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0.6;
+    /* Slight transparency to blend with theme */
+    filter: brightness(0.7) contrast(1.1);
+}
+
+/* Dark overlay to ensure text readability over video */
+.contact-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(10, 10, 10, 0.4) 0%, rgba(10, 10, 10, 0.8) 100%);
+    z-index: 1;
+    backdrop-filter: blur(2px);
+    /* Slight blur for depth */
 }
 
 .tech-grid-bg {
@@ -1458,7 +1579,10 @@ a {
         linear-gradient(rgba(139, 69, 89, 0.08) 1px, transparent 1px),
         linear-gradient(90deg, rgba(139, 69, 89, 0.08) 1px, transparent 1px);
     background-size: 50px 50px;
-    opacity: 0.5;
+    opacity: 0.3;
+    /* Reduced opacity to sit nicely on top of video */
+    z-index: 2;
+    /* Sit above video and overlay */
 }
 
 .contact-content {

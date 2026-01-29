@@ -37,7 +37,7 @@
 
         <button class="menu-toggle btn-circle" id="menu-toggle" aria-label="Menu">
             <!-- Brahma iridescent bubble background -->
-            <span class="btn-bubble"><img src="brahmin/button-small-1.webp" alt="" /></span>
+            <span class="btn-bubble"><img src="assets/button-small-1.webp" alt="" /></span>
             <!-- Brahma-style hamburger icon -->
             <svg viewBox="0 0 32 9" fill="none" xmlns="http://www.w3.org/2000/svg" class="hamburger-icon">
                 <path d="M1 1L16.5172 1M1 7.5H30.9472M22.4141 1.00001H31" stroke="white" stroke-width="2"
@@ -88,6 +88,14 @@
     <main>
         <!-- HERO SECTION -->
         <section id="hero" class="full-page">
+            <!-- Background Video -->
+            <div class="video-container">
+                <video autoplay muted loop playsinline class="hero-video-bg">
+                    <source src="assets/hero-video.mp4" type="video/mp4">
+                </video>
+                <div class="video-overlay"></div>
+            </div>
+
             <!-- Floating Geometric Shards Animation -->
             <div class="shards-container">
                 <div class="shard shard-1"></div>
@@ -128,9 +136,9 @@
 
             <div class="hero-scroll-indicator btn-circle">
                 <!-- Brahma iridescent bubble background -->
-                <span class="btn-bubble"><img src="brahmin/button-small-4.webp" alt="" /></span>
+                <span class="btn-bubble"><img src="assets/button-small-4.webp" alt="" /></span>
                 <!-- Brahma-style arrow icon -->
-                <img src="brahmin/arrow.svg" alt="Scroll down" class="scroll-arrow-icon" />
+                <img src="assets/arrow.svg" alt="Scroll down" class="scroll-arrow-icon" />
             </div>
         </section>
 
@@ -309,6 +317,11 @@
 
         <!-- CONTACT SECTION -->
         <section id="contact" class="full-page lets-talk-section">
+            <video autoplay muted loop playsinline class="contact-video-bg">
+                <source src="assets/footer-bg.mp4" type="video/mp4">
+            </video>
+            <div class="contact-overlay"></div>
+
             <div class="tech-grid-bg"></div>
 
             <div class="contact-content">
@@ -392,6 +405,10 @@
         </footer>
     </main>
 
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
     <script src="script.js"></script>
 </body>
 

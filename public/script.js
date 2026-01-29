@@ -145,44 +145,85 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- HEADER SCROLL EFFECT ---
+    // --- HEADER SCROLL EFFECT (DISABLED - Always Transparent) ---
     const header = document.querySelector('.minimal-header');
+    // Header remains transparent as per user request
+    if (header) {
+        header.style.background = 'transparent';
+        header.style.backdropFilter = 'none';
+    }
 
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 100) {
-            header.style.background = 'rgba(10, 10, 10, 0.95)';
-            header.style.backdropFilter = 'blur(20px)';
-        } else {
-            header.style.background = 'transparent';
-            header.style.backdropFilter = 'none';
-        }
-    });
-
-    // --- CURSOR GLOW ---
+    // --- CUSTOM WHITE CIRCLE CURSOR ---
     if (window.innerWidth > 768) {
-        const glow = document.createElement('div');
-        glow.style.cssText = `
+        // Create custom cursor element
+        const cursor = document.createElement('div');
+        cursor.classList.add('custom-cursor');
+        // Add basic styles directly (or could be in CSS)
+        cursor.style.cssText = `
             position: fixed;
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, rgba(0, 212, 255, 0.06) 0%, transparent 70%);
+            width: 12px;
+            height: 12px;
+            background: white;
             border-radius: 50%;
             pointer-events: none;
+            mix-blend-mode: difference; /* Ensures visibility on all backgrounds */
             transform: translate(-50%, -50%);
-            z-index: 0;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            z-index: 9999;
+            transition: width 0.3s, height 0.3s;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         `;
-        document.body.appendChild(glow);
+        document.body.appendChild(cursor);
 
-        document.addEventListener('mousemove', (e) => {
-            glow.style.left = e.clientX + 'px';
-            glow.style.top = e.clientY + 'px';
-            glow.style.opacity = '1';
+        // Hide default cursor
+        document.body.style.cursor = 'none';
+        document.querySelectorAll('a, button, .cursor-pointer').forEach(el => {
+            el.style.cursor = 'none';
         });
 
-        document.addEventListener('mouseleave', () => {
-            glow.style.opacity = '0';
+        // Follow mouse logic
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Hover effect for links - expand circle
+        document.querySelectorAll('a, button, .hero-huge-title').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.width = '40px';
+                cursor.style.height = '40px';
+                cursor.style.background = 'rgba(255, 255, 255, 0.2)';
+                cursor.style.border = '1px solid white';
+                cursor.style.backdropFilter = 'blur(2px)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.style.width = '12px';
+                cursor.style.height = '12px';
+                cursor.style.background = 'white';
+                cursor.style.border = 'none';
+                cursor.style.backdropFilter = 'none';
+            });
+        });
+    }
+
+    // --- HERO VIDEO PARALLAX ---
+    const heroSection = document.getElementById('hero');
+    const heroVideo = document.querySelector('.hero-video-bg');
+
+    if (heroSection && heroVideo) {
+        heroSection.addEventListener('mousemove', (e) => {
+            const { clientX, clientY } = e;
+            const { innerWidth, innerHeight } = window;
+
+            // Calculate movement (opposite to mouse)
+            const xMove = ((clientX / innerWidth) - 0.5) * -20;
+            const yMove = ((clientY / innerHeight) - 0.5) * -20;
+
+            heroVideo.style.transform = `scale(1.1) translate(${xMove}px, ${yMove}px)`;
+        });
+
+        // Reset on leave
+        heroSection.addEventListener('mouseleave', () => {
+            heroVideo.style.transform = 'scale(1.1) translate(0, 0)';
         });
     }
 
@@ -230,7 +271,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    setTimeout(animateHero, 100);
+
+
+    // --- HERO ENTRANCE ANIMATION (Brahma-style expo easing) ---
 
     // --- FLOATING SPHERE CLICK ---
     const floatingSphere = document.querySelector('.floating-sphere');
@@ -261,4 +304,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // --- ENSURE VIDEO LOOPING WORKS ---
+    // Sometimes browsers pause videos if they are off-screen or for power saving
+    const ensureVideoPlays = (selector) => {
+        const video = document.querySelector(selector);
+        if (video) {
+            video.loop = true; // Force standard loop
+            video.muted = true;
+            video.play().catch(e => console.log("Autoplay prevented:", e));
+        }
+    };
+
+    ensureVideoPlays('.hero-video-bg');
+    ensureVideoPlays('.contact-video-bg');
 });
