@@ -122,7 +122,10 @@
                 <li class="nav-item"><a href="#experience" class="nav-link double-line"><span>EXPERIENCE</span>
                         <div class="nav-bubble"></div>
                     </a></li>
-                <li class="nav-item"><a href="#contact" class="nav-link has-dot"><span>CONTACT</span>
+                <li class="nav-item"><a href="#contact" class="nav-link double-line"><span>CONTACT</span>
+                        <div class="nav-bubble"></div>
+                    </a></li>
+                <li class="nav-item"><a href="#contact-form" class="nav-link has-dot"><span>SEND MESSAGE</span>
                         <div class="nav-dot"></div>
                     </a></li>
             </ul>
@@ -728,12 +731,13 @@
             <div class="contact-overlay"></div>
             <div class="tech-grid-bg" aria-hidden="true"></div>
 
-            <div class="contact-inner container">
-                <div class="contact-left stagger-item">
+            <div class="contact-inner container" style="justify-content: center;">
+                <div class="contact-left stagger-item"
+                    style="max-width: 600px; text-align: center; display: flex; flex-direction: column; align-items: center;">
                     <p class="contact-subtitle">Let's build something great together.</p>
                     <h2 class="contact-huge-title">LET'S<br>TALK</h2>
 
-                    <div class="contact-info">
+                    <div class="contact-info" style="justify-content: center;">
                         <a href="mailto:gannojisathvik24@gmail.com" class="contact-info-item">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <rect x="2" y="4" width="20" height="16" rx="2" />
@@ -757,17 +761,31 @@
                         </a>
                     </div>
 
-                    <div class="floating-sphere" id="floating-sphere" role="button" aria-label="Email me" tabindex="0">
+                    <a href="#contact-form" class="floating-sphere" id="floating-sphere" aria-label="Send Message"
+                        style="margin-top: 2rem;">
                         <div class="sphere-glow"></div>
                         <div class="sphere-inner">
-                            <span class="sphere-arrow">↗</span>
+                            <span class="sphere-arrow">↓</span>
                         </div>
-                    </div>
+                    </a>
                 </div>
+            </div>
 
-                <div class="contact-right stagger-item">
-                    <form class="contact-form" id="contact-form" action="mailto:gannojisathvik24@gmail.com" method="get"
-                        enctype="text/plain">
+            <div class="contact-dot" aria-hidden="true"></div>
+        </section>
+
+        <!-- ══════════════════════════════
+             MESSAGE FORM SECTION
+        ══════════════════════════════ -->
+        <section id="contact-form" class="full-page form-only-section">
+            <div class="container"
+                style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+                <div class="contact-right stagger-item" style="max-width: 600px; width: 100%;">
+                    <div class="section-header" style="margin-bottom: 2rem; text-align: center;">
+                        <span class="section-label">—— SEND A MESSAGE</span>
+                    </div>
+                    <form class="contact-form" id="contact-form-element" action="mailto:gannojisathvik24@gmail.com"
+                        method="get" enctype="text/plain">
                         <div class="form-group">
                             <label for="form-name" class="form-label">YOUR NAME</label>
                             <input type="text" id="form-name" name="name" class="form-input" placeholder="John Doe"
@@ -788,7 +806,8 @@
                             <textarea id="form-message" name="body" class="form-input form-textarea" rows="4"
                                 placeholder="Tell me about your project..." required></textarea>
                         </div>
-                        <button type="submit" class="cta-button form-submit">
+                        <button type="submit" class="cta-button form-submit"
+                            style="width: 100%; justify-content: center;">
                             <span>SEND MESSAGE</span>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M5 12h14M12 5l7 7-7 7" />
@@ -797,8 +816,6 @@
                     </form>
                 </div>
             </div>
-
-            <div class="contact-dot" aria-hidden="true"></div>
         </section>
 
         <!-- ══════════════════════════════
