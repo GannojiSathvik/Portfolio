@@ -2881,13 +2881,22 @@ body.light-mode #ball {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 1rem;
     width: 100%;
-    padding: 1.5rem var(--gutter);
+    padding: 1.75rem 3rem 2rem;
     background: var(--bg-primary);
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     font-family: var(--font-body);
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 400;
+}
+
+@media (max-width: 768px) {
+    .copyright-footer {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem 1.5rem 2rem;
+    }
 }
 
 .footer-left {
@@ -2900,7 +2909,7 @@ body.light-mode #ball {
     color: #6b7280;
     margin: 0;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.15em;
 }
 
 body.light-mode .copyright-footer {

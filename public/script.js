@@ -48,8 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.ticker.add(time => lenis.raf(time * 1000));
     gsap.ticker.lagSmoothing(0);
 
-    // ── Scroll to Top on Page Load ──────
-    window.scrollY = 0;
+    // Browsers restore the old scroll position after load, overriding this
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     window.scrollTo(0, 0);
     lenis.scrollTo(0, { immediate: true });
 
