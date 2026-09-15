@@ -145,8 +145,9 @@ About section's education info.
   independently verified against real project dates.
 - Many files are still untracked in git (several `public/assets/*` images,
   `public/_experience_backup.html`, `update_portfolio.py`, `video stuff/`,
-  `.agents/`). Check whether the live site references any of those assets
-  before assuming they're unused — if it does, they're missing on Vercel.
+  `.agents/`). Checked: none of the untracked images are referenced by
+  `index.html`, `style.css`, or `script.js`, so the live site isn't missing
+  anything. If you start using one, `git add` it or it won't exist on Vercel.
 
 ## Running and deploying
 
