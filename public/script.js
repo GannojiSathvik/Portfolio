@@ -9,23 +9,23 @@
 const projectData = {
     1: {
         num: '001',
-        title: 'AUTOMATED WEB INTERACTION BOT',
-        desc: 'Developed a high-frequency automation script to benchmark browser interaction speeds on dynamic web platforms. Implemented DOM parsing with BeautifulSoup to extract real-time text data and simulate human input events. Optimized script execution to achieve stable simulated typing speeds of 150+ WPM with <10ms latency.',
-        tech: ['PYTHON', 'SELENIUM', 'BEAUTIFULSOUP', 'HTML5', 'CSS3'],
-        github: '#'
-    },
-    2: {
-        num: '002',
-        title: 'AI RED TEAM FRAMEWORK',
-        desc: 'Built an automated Red Team framework using DeepSeek-R1, identifying 15+ critical security vulnerabilities in Llama-3 models without human intervention. Implemented Visual Prompt Injection and RAG Poisoning attacks using Flux.1, exposing gaps in standard multimodal safety filters. Optimized system performance using MFlux and 4-bit quantization, reducing memory usage by 60%.',
-        tech: ['PYTHON', 'DEEPSEEK-R1', 'LLAMA-3', 'FLUX.1', 'PYTORCH', 'MLX'],
+        title: 'NEURONARRATOR',
+        desc: 'AI-powered assistive vision app for blind and visually impaired users. Uses real-time multimodal vision AI (Google Gemini) to describe surroundings, read currency denominations, and locate items via a voice-first, touch-first interface. Client-side face recognition via face-api.js, with speech, haptic, and spatial-audio feedback for hazard detection.',
+        tech: ['REACT', 'TYPESCRIPT', 'GEMINI VISION', 'FACE-API.JS', 'WEB SPEECH API', 'DEXIE.JS'],
         github: '#'
     },
     3: {
         num: '003',
-        title: 'INTELLIGENT CLOUD STORAGE SYSTEM',
-        desc: 'Developed a cloud-based file-sharing system inspired by Google Drive. Implemented secure file storage and access using AWS services. Designed the system to scale automatically based on user demand. Deployed backend services on AWS EC2 using Docker containers to ensure high availability.',
-        tech: ['PYTHON', 'AWS EC2', 'AWS S3', 'CLOUDWATCH', 'DOCKER', 'SCIKIT-LEARN'],
+        title: 'INTELLIGENT CLOUD SCALING SYSTEM',
+        desc: 'Predictive auto-scaling system forecasting CPU utilization up to 5 minutes ahead, enabling proactive resource adjustment before demand spikes. Designed a 3-layer LSTM with an attention mechanism (128 hidden units, 24-step sequences) to learn temporal workload patterns from CPU, network, and business-context features. Built an event-driven AWS architecture using Lambda, S3, CloudWatch, EventBridge, API Gateway, and EC2 Auto Scaling. Applied MinMax normalization, early stopping, gradient clipping, and Adam optimization; achieved an R² of 0.94 and MAE of ~4.13% CPU.',
+        tech: ['PYTHON', 'PYTORCH', 'LSTM', 'AWS LAMBDA', 'AWS S3', 'CLOUDWATCH', 'EVENTBRIDGE', 'API GATEWAY', 'EC2 AUTO SCALING', 'DOCKER'],
+        github: '#'
+    },
+    4: {
+        num: '004',
+        title: 'HACKINTERVIEWAI',
+        desc: 'Built an AI-powered interview preparation platform supporting coding practice, resume analysis, mock interviews, and structured candidate feedback. Designed REST APIs for user workflows, interview sessions, dynamic question generation, and response evaluation, with AI services generating context-aware questions and personalized feedback from interview history.',
+        tech: ['PYTHON', 'FASTAPI', 'NODE.JS', 'EXPRESS.JS', 'MONGODB'],
         github: '#'
     }
 };
@@ -47,6 +47,11 @@ document.addEventListener('DOMContentLoaded', () => {
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add(time => lenis.raf(time * 1000));
     gsap.ticker.lagSmoothing(0);
+
+    // ── Scroll to Top on Page Load ──────
+    window.scrollY = 0;
+    window.scrollTo(0, 0);
+    lenis.scrollTo(0, { immediate: true });
 
     // ── Page Loader ───────────────────────
     const loader = document.getElementById('loader');
@@ -143,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
         anchor.addEventListener('click', e => {
             e.preventDefault();
             const target = document.querySelector(anchor.getAttribute('href'));
-            if (target) lenis.scrollTo(target, { offset: -80, duration: 1.4 });
+            if (target) lenis.scrollTo(target, { offset: -112, duration: 1.4 });
         });
     });
 
@@ -152,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (scrollIndicator) {
         scrollIndicator.addEventListener('click', () => {
             const about = document.getElementById('about');
-            if (about) lenis.scrollTo(about, { offset: -80, duration: 1.2 });
+            if (about) lenis.scrollTo(about, { offset: -112, duration: 1.2 });
         });
     }
 
