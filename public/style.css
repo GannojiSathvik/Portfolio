@@ -1485,7 +1485,7 @@ body.light-mode .icon-moon {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.75rem;
-    align-items: stretch;
+    align-items: start; /* opening one card's details shouldn't stretch the other */
 }
 
 .playground-card {
@@ -1505,6 +1505,10 @@ body.light-mode .icon-moon {
     display: flex;
     flex-direction: column;
     padding: 1.5rem 1.75rem 1.75rem;
+}
+
+.playground-tech {
+    margin: -0.25rem 0 1.25rem;
 }
 
 .playground-card .playground-play {

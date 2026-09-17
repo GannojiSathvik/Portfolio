@@ -70,10 +70,13 @@ not part of the site) unless asked to touch the Next.js layer specifically.
 
 A violet round robot fixed in the bottom-right corner, loaded before
 `script.js` and fully self-contained (builds its own SVG, needs GSAP).
-Its expressions were modelled on Pippo, the round robot from the Doraemon
-movie "Nobita and the New Steel Troops—Winged Angels" (glossy eyes, rosy
-cheeks, the body stays a plain sphere and the face does the acting) —
-inspired by, not a copy of, that character. Moods: idle, happy, excited,
+Its expression style (glossy eyes, rosy cheeks, the body stays a plain
+sphere and the face does the acting) was designed from cartoon references,
+but the user wants **no movie/character references on the site** — the
+Personal Projects cards describe both projects in purely technical terms
+(stack, architecture, performance). The 80% Game's stack comes from its
+source in `~/Documents/slothgame` (Next.js 16 + Server Actions, Neon
+Postgres via Drizzle, polling sync, game-theory AI bots). Moods: idle, happy, excited,
 curious, surprised, sleepy, sad (tears), angry (red flush + manga 💢
 vein), shy, love. Triggers: click = happy, quick double click = excited,
 5+ clicks in 2s = angry with a 5s cooldown, hover = curious, eyes follow

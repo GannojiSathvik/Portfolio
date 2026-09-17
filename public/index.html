@@ -26,7 +26,7 @@
     <!-- Lenis Smooth Scroll -->
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 
-    <link rel="stylesheet" href="style.css?v=20260917-2">
+    <link rel="stylesheet" href="style.css?v=20260917-3">
 </head>
 
 <body class="loading">
@@ -704,9 +704,14 @@
                                 <span class="project-cat-tag">GAME</span>
                                 <h3 class="playground-card-title">The 80% Game</h3>
                             </div>
-                            <p class="playground-card-desc">A social-deduction number game in the spirit of Alice in
-                                Borderland's elimination rounds — guess a number, chase 80% of the average, and watch the
-                                rules escalate as players get knocked out.</p>
+                            <p class="playground-card-desc">Real-time multiplayer Beauty Contest game: each round
+                                players guess 0–100 and whoever lands closest to 80% of the average survives. Built on
+                                Next.js 16 (App Router + Server Actions) with Neon serverless Postgres through Drizzle
+                                ORM. Rooms stay in sync via a visibility-aware polling loop, and AI bot players with
+                                eight game-theory strategies (from naive to near-Nash) fill empty seats.</p>
+                            <div class="project-tech-tags playground-tech">
+                                <span>Next.js 16</span><span>TypeScript</span><span>Server Actions</span><span>Neon Postgres</span><span>Drizzle ORM</span><span>Tailwind CSS</span><span>shadcn/ui</span><span>Vercel</span>
+                            </div>
 
                             <details class="playground-rules">
                                 <summary>See the full ruleset</summary>
@@ -780,43 +785,48 @@
                                 <span class="project-cat-tag">INTERACTIVE</span>
                                 <h3 class="playground-card-title">Robot Buddy</h3>
                             </div>
-                            <p class="playground-card-desc">The little round robot in the corner of this site. An expressive
-                                sphere built with SVG and GSAP, with ten moods whose style is inspired by Pippo from
-                                Doraemon: Nobita and the New Steel Troops. It blinks, follows your cursor, wanders the
-                                screen, rides along as you scroll, falls asleep when you're away — and gets 💢 if you
-                                poke it too many times.</p>
+                            <p class="playground-card-desc">A lightweight mascot engine in vanilla JavaScript — the
+                                robot in the corner of this site. The whole character is generated as inline SVG at
+                                runtime and animated with GSAP timelines, driven by a priority-based state machine
+                                with ten expressions. It reacts to clicks, cursor position, scroll velocity and
+                                section visibility, and can be dropped into any site with one script tag.</p>
+                            <div class="project-tech-tags playground-tech">
+                                <span>JavaScript</span><span>SVG</span><span>GSAP</span><span>State Machine</span><span>IntersectionObserver</span><span>CSS</span>
+                            </div>
 
                             <details class="playground-rules">
                                 <summary>How it works</summary>
 
                                 <div class="playground-rule">
                                     <div class="playground-rule-head">
-                                        <h4>Moods</h4>
-                                        <span class="rule-tag">10 expressions</span>
+                                        <h4>Rendering</h4>
+                                        <span class="rule-tag">Inline SVG</span>
                                     </div>
-                                    <p>Idle, happy, excited, curious, surprised, sleepy, sad, angry, shy and love — each with
-                                        its own eyes, mouth, body motion (squash, hop, tilt, shake) and cartoon symbols like
-                                        sparkles, tears, hearts, zzz and the manga anger vein.</p>
+                                    <p>Built with createElementNS: body, eyes, mouth, brows and effect symbols are SVG
+                                        groups. Every mouth shape shares one quadratic-curve path structure, so GSAP
+                                        can morph between expressions instead of swapping images.</p>
                                 </div>
 
                                 <div class="playground-rule">
                                     <div class="playground-rule-head">
-                                        <h4>Reactions</h4>
-                                        <span class="rule-tag">You trigger these</span>
+                                        <h4>Behaviour engine</h4>
+                                        <span class="rule-tag">State machine</span>
                                     </div>
-                                    <p>Click once to make it happy, twice for excited, five times to make it angry. Hover to
-                                        make it curious, scroll fast to surprise it, and reach the contact section to get a
-                                        wave.</p>
+                                    <p>Moods are ranked by priority with per-emotion cooldowns. Click bursts are
+                                        detected in a 2s window, an idle timer puts it to sleep, scroll velocity and
+                                        IntersectionObserver events trigger reactions, and a randomized scheduler runs
+                                        roam, peek, spin and scroll-ride behaviours.</p>
                                 </div>
 
                                 <div class="playground-rule">
                                     <div class="playground-rule-head">
-                                        <h4>A mind of its own</h4>
-                                        <span class="rule-tag">Random play</span>
+                                        <h4>Performance &amp; accessibility</h4>
+                                        <span class="rule-tag">Transform-only</span>
                                     </div>
-                                    <p>Every so often it roams around the screen, peeks up the edge, does a flip, or rides
-                                        along with the scroll. It respects reduced-motion settings and never blocks the
-                                        page.</p>
+                                    <p>Animates only transform and opacity, keeps breathing on a separate layer to
+                                        avoid tween conflicts, reuses quickTo tweens for cursor tracking, pauses in
+                                        hidden tabs, and respects prefers-reduced-motion. It loads GSAP itself when the
+                                        host page doesn't have it.</p>
                                 </div>
                             </details>
 
@@ -919,8 +929,8 @@
         <p class="footer-right">BY HUMANS. FOR THE FUTURE.</p>
     </footer>
 
-    <script src="mascot.js?v=20260917-2"></script>
-    <script src="script.js?v=20260917-2"></script>
+    <script src="mascot.js?v=20260917-3"></script>
+    <script src="script.js?v=20260917-3"></script>
 </body>
 
 </html>
