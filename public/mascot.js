@@ -8,6 +8,8 @@
    and touches nothing else. Pair it with the ROBOT BUDDY block in style.css.
    Moods: idle, happy, excited, curious, surprised, sleepy, sad, angry,
    shy, love. Triggers are wired in initMascot() at the bottom.
+   Every so often it also plays on its own: roams around the screen,
+   peeks up the edge, spins, or rides along while the page scrolls.
    ============================================================ */
 
 (() => {
@@ -322,7 +324,7 @@
         let idleTimer = null;
         let zzzLoop = null;
         function sleep() {
-            if (asleep || performance.now() < busyUntil) return resetIdle();
+            if (asleep || roaming || performance.now() < busyUntil) return resetIdle();
             asleep = true;
             mood = 'sleepy';
             setFace('sleepy');
@@ -395,12 +397,40 @@
         button.addEventListener('mouseenter', () => { if (mood === 'idle') express('curious', { auto: true }); });
 
         // ── Page events ──
+        // Random play state (used below and by the scroll handler).
+        let roaming = false;
+        let hovered = false;
+        let ridingUntil = 0;
+        button.addEventListener('mouseenter', () => { hovered = true; });
+        button.addEventListener('mouseleave', () => { hovered = false; });
+
+        const lean = reduce ? null : gsap.quickTo(p.breath, 'rotation', { duration: 0.5, ease: 'power3.out' });
+        const rideY = reduce ? null : gsap.quickTo(button, 'y', { duration: 0.7, ease: 'power3.out' });
+        let settleTimer = null;
+
         let lastY = window.scrollY, lastT = performance.now();
         window.addEventListener('scroll', () => {
             const now = performance.now();
-            const speed = Math.abs(window.scrollY - lastY) / Math.max(1, now - lastT) * 1000;
+            const velocity = (window.scrollY - lastY) / Math.max(1, now - lastT) * 1000;
             lastY = window.scrollY; lastT = now;
-            if (speed > 2500) express('surprised', { auto: true });
+            if (Math.abs(velocity) > 2500) express('surprised', { auto: true });
+            if (reduce) return;
+
+            // Always: lean into the scroll a little.
+            lean(gsap.utils.clamp(-14, 14, -velocity / 120));
+            // Sometimes: get carried along with the scroll, then drift home.
+            if (now < ridingUntil && !roaming) {
+                rideY(gsap.utils.clamp(-260, 0, -Math.abs(velocity) * 0.12));
+                if (mood === 'idle') setFace('excited');
+            }
+            clearTimeout(settleTimer);
+            settleTimer = setTimeout(() => {
+                lean(0);
+                if (!roaming) {
+                    rideY(0);
+                    if (mood === 'idle') setFace('idle');
+                }
+            }, 160);
         }, { passive: true });
 
         const contact = document.getElementById('contact');
@@ -431,6 +461,94 @@
             if (document.hidden) hiddenAt = performance.now();
             else if (performance.now() - hiddenAt > 3000) express('happy', { auto: true });
         });
+
+        // ── Random play ──
+        // A hop from one spot to another, as a few small arcs, leaning the way it travels.
+        function hop(fromX, fromY, toX, toY) {
+            const tl = gsap.timeline();
+            const hops = Math.max(1, Math.round(Math.hypot(toX - fromX, toY - fromY) / 220));
+            tl.to(p.body, { rotation: toX < fromX ? -10 : 10, duration: 0.2, ease: 'power2.out' });
+            for (let k = 1; k <= hops; k++) {
+                const at = tl.duration();
+                const x = fromX + (toX - fromX) * k / hops;
+                const y = fromY + (toY - fromY) * k / hops;
+                const prevY = fromY + (toY - fromY) * (k - 1) / hops;
+                tl.to(button, { x, duration: 0.44, ease: 'sine.inOut' }, at)
+                    .to(button, { y: Math.min(prevY, y) - gsap.utils.random(30, 55), duration: 0.22, ease: 'power2.out' }, at)
+                    .to(button, { y, duration: 0.22, ease: 'power2.in' }, at + 0.22)
+                    .to(p.body, { scaleX: 1.12, scaleY: 0.88, duration: 0.07, yoyo: true, repeat: 1, ease: 'power1.out' }, at + 0.44);
+            }
+            return tl.to(p.body, { rotation: 0, duration: 0.25, ease: 'power2.out' });
+        }
+
+        const limits = () => {
+            const r = button.getBoundingClientRect();
+            return { minX: -(window.innerWidth - r.width - 48), minY: -(window.innerHeight - r.height - 60) };
+        };
+
+        const PLAYS = {
+            // Wander to 2–4 random spots, react at each, then go home.
+            roam() {
+                const { minX, minY } = limits();
+                const tl = gsap.timeline();
+                let x = gsap.getProperty(button, 'x'), y = gsap.getProperty(button, 'y');
+                tl.call(() => setFace('excited'));
+                const stops = gsap.utils.random(2, 4, 1);
+                for (let i = 0; i < stops; i++) {
+                    const tx = gsap.utils.random(minX, 0), ty = gsap.utils.random(minY, 0);
+                    tl.add(hop(x, y, tx, ty))
+                        .call(() => setFace(gsap.utils.random(['happy', 'curious', 'excited', 'love'])))
+                        .to({}, { duration: gsap.utils.random(0.5, 1.2) });
+                    x = tx; y = ty;
+                }
+                return tl.call(() => setFace('happy')).add(hop(x, y, 0, 0));
+            },
+            // Slide up the edge, look around, slide back.
+            peek() {
+                const { minY } = limits();
+                return gsap.timeline()
+                    .call(() => setFace('curious'))
+                    .to(button, { y: gsap.utils.random(minY * 0.8, minY * 0.3), duration: 1.2, ease: 'power2.inOut' })
+                    .to(p.body, { rotation: -12, duration: 0.4, ease: 'power2.inOut' })
+                    .to(p.body, { rotation: 12, duration: 0.6, ease: 'power2.inOut' }, '+=0.4')
+                    .to(p.body, { rotation: 0, duration: 0.3 }, '+=0.4')
+                    .call(() => setFace('happy'))
+                    .to(button, { y: 0, duration: 1, ease: 'power2.inOut' }, '+=0.3');
+            },
+            // A happy flip in place.
+            spin() {
+                return gsap.timeline()
+                    .call(() => setFace('happy'))
+                    .to(p.body, { scaleY: 0.88, scaleX: 1.08, duration: 0.12 })
+                    .to(p.body, { y: -30, scaleY: 1.05, scaleX: 0.96, rotation: 360, duration: 0.7, ease: 'power2.out' })
+                    .to(p.body, { y: 0, scaleY: 1, scaleX: 1, duration: 0.45, ease: 'bounce.out' })
+                    .set(p.body, { rotation: 0 })
+                    .add(SYMBOLS.happy());
+            },
+            // For the next while, get carried along whenever the page scrolls.
+            ride() {
+                ridingUntil = performance.now() + gsap.utils.random(12000, 20000);
+                return gsap.timeline().add(bodyMotion('happy'));
+            },
+        };
+
+        function schedulePlay() {
+            gsap.delayedCall(gsap.utils.random(10, 22), () => {
+                const free = !asleep && !roaming && !hovered && !document.hidden && performance.now() > busyUntil;
+                if (free) {
+                    const options = window.innerWidth > 768 ? ['roam', 'roam', 'peek', 'spin', 'ride', 'ride'] : ['spin', 'ride', 'peek'];
+                    const play = gsap.utils.random(options);
+                    roaming = play !== 'ride';
+                    PLAYS[play]().call(() => {
+                        roaming = false;
+                        if (mood === 'idle') setFace('idle');
+                        resetIdle();
+                    });
+                }
+                schedulePlay();
+            });
+        }
+        if (!reduce) gsap.delayedCall(6, schedulePlay);
 
         // ── Entrance: drops in after the loader and wakes up ──
         setFace('sleepy');

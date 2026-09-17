@@ -2972,7 +2972,6 @@ body.light-mode .footer-right {
     background: none;
     border: 0;
     cursor: inherit; /* follow the page: hidden when the custom cursor is active */
-    transition: transform 0.6s var(--ease-expo);
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -2980,6 +2979,8 @@ body.light-mode .footer-right {
     width: 100%;
     height: 100%;
     overflow: visible;
+    transform-origin: 50% 100%;
+    transition: transform 0.6s var(--ease-expo);
     filter: drop-shadow(0 8px 18px rgba(136, 92, 245, 0.35));
 }
 
@@ -2988,9 +2989,9 @@ body.light-mode .footer-right {
     opacity: 0.7;
 }
 
-/* Steps up and grows a little when the contact section is on screen */
-.robot-buddy.at-contact {
-    transform: translate(-12px, -28px) scale(1.25);
+/* Grows a little when the contact section is on screen (the button itself is moved by GSAP) */
+.robot-buddy.at-contact svg {
+    transform: scale(1.25);
 }
 
 .robot-buddy:focus-visible {

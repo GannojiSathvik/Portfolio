@@ -79,6 +79,12 @@ the cursor, 25s idle = sleeps with zzz, fast scroll = surprised, reaching
 `#contact` = excited + wave (once per load) and it steps up/grows via
 `.at-contact`, hovering a project card 1.5s = love. Auto reactions are
 rate-limited; reduced-motion users get face swaps without body motion.
+Random play: every 10–22s (when awake, not hovered, not mid-reaction) it
+picks one of roam (hops to 2–4 random screen spots and back; desktop
+only), peek (slides up the right edge and looks around), spin, or ride
+(for 12–20s it gets carried up while the page scrolls). It always leans
+into the scroll. GSAP moves the `.robot-buddy` button itself, so any CSS
+transform effect (like `.at-contact`) must go on its inner `svg`.
 
 ## Wording/tone (flagged, not yet fixed)
 
