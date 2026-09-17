@@ -271,15 +271,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── Stagger Reveal Observer ───────────
     const staggerEls = document.querySelectorAll('.stagger-item');
+    // Starts just before an element scrolls in, and caps the stagger so a big jump
+    // (e.g. a nav link) doesn't leave later items waiting.
     const revealObs = new IntersectionObserver((entries) => {
-        entries.forEach((entry, i) => {
-            if (entry.isIntersecting) {
-                setTimeout(() => entry.target.classList.add('in-view'), i * 80);
-                revealObs.unobserve(entry.target);
-            }
+        entries.filter(entry => entry.isIntersecting).forEach((entry, i) => {
+            setTimeout(() => entry.target.classList.add('in-view'), Math.min(i, 3) * 70);
+            revealObs.unobserve(entry.target);
         });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0, rootMargin: '0px 0px 10% 0px' });
     staggerEls.forEach(el => revealObs.observe(el));
+
+    // ── Pause the Focus section's loops while it's off-screen ──
+    const focusSection = document.getElementById('focus');
+    if (focusSection) {
+        new IntersectionObserver(([entry]) => {
+            focusSection.classList.toggle('is-active', entry.isIntersecting);
+        }, { rootMargin: '200px 0px' }).observe(focusSection);
+    }
 
     // ── Background Text Reveal ────────────
     const bgTextObs = new IntersectionObserver(entries => {

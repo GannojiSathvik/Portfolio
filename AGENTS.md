@@ -47,7 +47,9 @@ not part of the site) unless asked to touch the Next.js layer specifically.
    work: currently just **The 80% Game** (a social-deduction number game,
    live at https://games-for-sloth.vercel.app), with its full escalating
    ruleset hidden behind a native `<details>/<summary>` toggle so the section
-   stays uncluttered until someone wants the rules. The user mentioned
+   stays uncluttered until someone wants the rules. A second card, **Robot
+   Buddy**, sits beside it (the two cards are a 2-column `.playground-grid`,
+   stacking under 900px). The user mentioned
    building a "Sphere" personal AI assistant (Grok-like) too, not yet
    described in enough detail to add — ask before inventing content for it.
 8. **Contact / "Let's Talk"** (`#contact`) — the last section. An earlier
@@ -93,7 +95,8 @@ act out every mood with a caption, wave, and hop home
 and glow ball are centred on the pointer with `xPercent/yPercent: -50`.
 The glow (`#ball`) is a small 36px halo that hugs the dot — the user wants
 it kept, just cursor-sized, not the old 320px light. Demo captions fade
-on their own after ~1.4s.
+on their own after ~1.4s. The robot's colours follow the site palette: dark
+graphite glass body with a cyan rim, and cyan (`INK`) eyes, mouth and brows.
 
 ## Wording/tone (flagged, not yet fixed)
 

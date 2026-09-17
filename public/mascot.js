@@ -16,6 +16,7 @@
 
 (() => {
     const SVG_NS = 'http://www.w3.org/2000/svg';
+    const INK = '#7fe9ff'; // eyes, mouth and brows glow in the site's cyan
 
     // Mouth line shapes all share one path structure so GSAP can morph between them.
     const MOUTH = {
@@ -65,8 +66,9 @@
 
         const defs = el('defs', {}, svg);
         const grad = el('radialGradient', { id: 'rb-shade', cx: '38%', cy: '30%', r: '75%' }, defs);
-        el('stop', { offset: '0%', 'stop-color': '#a888ff' }, grad);
-        el('stop', { offset: '100%', 'stop-color': '#6a3fe0' }, grad);
+        // Site palette: graphite glass body, cyan glow like the site's accent.
+        el('stop', { offset: '0%', 'stop-color': '#3b3f4d' }, grad);
+        el('stop', { offset: '100%', 'stop-color': '#0c0d12' }, grad);
 
         const parts = { caption };
         parts.shadow = el('ellipse', { class: 'rb-shadow', cx: 70, cy: 140, rx: 30, ry: 5 }, svg);
@@ -79,8 +81,9 @@
         el('rect', { x: 108, y: 84, width: 22, height: 11, rx: 5.5, fill: 'url(#rb-shade)' }, parts.arm);
 
         el('circle', { cx: 70, cy: 86, r: 46, fill: 'url(#rb-shade)' }, parts.body);
+        el('circle', { cx: 70, cy: 86, r: 45.2, fill: 'none', stroke: 'rgba(0, 212, 255, 0.35)', 'stroke-width': 1.6 }, parts.body);
         parts.flush = el('circle', { cx: 70, cy: 86, r: 46, fill: '#ea4045', opacity: 0 }, parts.body);
-        el('ellipse', { cx: 54, cy: 62, rx: 14, ry: 7, fill: '#ffffff', opacity: 0.18, transform: 'rotate(-25 54 62)' }, parts.body);
+        el('ellipse', { cx: 54, cy: 62, rx: 14, ry: 7, fill: '#ffffff', opacity: 0.12, transform: 'rotate(-25 54 62)' }, parts.body);
 
         const face = el('g', { class: 'rb-face' }, parts.body);
         parts.face = face;
@@ -94,16 +97,16 @@
         parts.eyeOpen = el('g', {}, parts.eyes);
         parts.leftEye = el('g', {}, parts.eyeOpen);
         parts.rightEye = el('g', {}, parts.eyeOpen);
-        el('ellipse', { cx: 54, cy: 82, rx: 6.5, ry: 9, fill: '#0b0b10' }, parts.leftEye);
-        el('ellipse', { cx: 86, cy: 82, rx: 6.5, ry: 9, fill: '#0b0b10' }, parts.rightEye);
+        el('ellipse', { cx: 54, cy: 82, rx: 6.5, ry: 9, fill: INK }, parts.leftEye);
+        el('ellipse', { cx: 86, cy: 82, rx: 6.5, ry: 9, fill: INK }, parts.rightEye);
         // Glossy highlights, like classic anime eyes.
         parts.shine = el('g', {}, parts.eyeOpen);
-        el('circle', { cx: 56.5, cy: 77.5, r: 2.4, fill: '#fff' }, parts.shine);
-        el('circle', { cx: 88.5, cy: 77.5, r: 2.4, fill: '#fff' }, parts.shine);
+        el('circle', { cx: 56.5, cy: 77.5, r: 2.4, fill: '#ffffff' }, parts.shine);
+        el('circle', { cx: 88.5, cy: 77.5, r: 2.4, fill: '#ffffff' }, parts.shine);
         el('circle', { cx: 52, cy: 86, r: 1, fill: '#fff', opacity: 0.8 }, parts.shine);
         el('circle', { cx: 84, cy: 86, r: 1, fill: '#fff', opacity: 0.8 }, parts.shine);
 
-        const stroke = { fill: 'none', stroke: '#0b0b10', 'stroke-width': 4, 'stroke-linecap': 'round' };
+        const stroke = { fill: 'none', stroke: INK, 'stroke-width': 4, 'stroke-linecap': 'round' };
         parts.eyeHappy = el('g', { opacity: 0 }, parts.eyes);
         el('path', { d: 'M47 84 Q54 74 61 84', ...stroke }, parts.eyeHappy);
         el('path', { d: 'M79 84 Q86 74 93 84', ...stroke }, parts.eyeHappy);
@@ -124,9 +127,9 @@
         el('path', { d: 'M46 71 L61 65', ...brow }, parts.lidSad);
         el('path', { d: 'M94 71 L79 65', ...brow }, parts.lidSad);
 
-        parts.mouth = el('path', { d: MOUTH.smile, fill: 'none', stroke: '#0b0b10', 'stroke-width': 3.5, 'stroke-linecap': 'round' }, face);
-        parts.mouthOpen = el('path', { d: 'M59 99 Q70 115 81 99 Q70 103 59 99 Z', fill: '#0b0b10', opacity: 0 }, face);
-        parts.mouthO = el('ellipse', { cx: 70, cy: 104, rx: 5, ry: 6, fill: '#0b0b10', opacity: 0 }, face);
+        parts.mouth = el('path', { d: MOUTH.smile, fill: 'none', stroke: INK, 'stroke-width': 3.5, 'stroke-linecap': 'round' }, face);
+        parts.mouthOpen = el('path', { d: 'M59 99 Q70 115 81 99 Q70 103 59 99 Z', fill: INK, opacity: 0 }, face);
+        parts.mouthO = el('ellipse', { cx: 70, cy: 104, rx: 5, ry: 6, fill: INK, opacity: 0 }, face);
 
         // Floating symbols (manga-style), all hidden until a mood calls for them.
         // Symbols sit in a positioned wrapper; GSAP animates the inner group so it never clobbers the position.
