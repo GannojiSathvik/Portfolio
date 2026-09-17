@@ -74,6 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const cursor = document.getElementById('cursor');
         const ball = document.getElementById('ball');
         let cx = 0, cy = 0, bx = 0, by = 0;
+        // Both are positioned by their top-left corner; centre them on the pointer.
+        gsap.set([cursor, ball], { xPercent: -50, yPercent: -50 });
 
         // quickTo reuses one tween per axis instead of creating a new tween on every mousemove
         const cursorX = gsap.quickTo(cursor, 'x', { duration: 0.1, ease: 'none' });

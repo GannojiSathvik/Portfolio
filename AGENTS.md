@@ -85,6 +85,12 @@ only), peek (slides up the right edge and looks around), spin, or ride
 (for 12–20s it gets carried up while the page scrolls). It always leans
 into the scroll. GSAP moves the `.robot-buddy` button itself, so any CSS
 transform effect (like `.at-contact`) must go on its inner `svg`.
+Demo: any `[data-robot-demo]` element (the "Watch the demo" button on the
+Robot Buddy card in Personal Projects) makes it hop beside that element,
+act out every mood with a caption, wave, and hop home
+(`window.robotBuddy.demo(el)`). The custom cursor dot hides over the robot
+(its colour-inverting blend turned the robot green), and the cursor dot
+and glow ball are centred on the pointer with `xPercent/yPercent: -50`.
 
 ## Wording/tone (flagged, not yet fixed)
 
