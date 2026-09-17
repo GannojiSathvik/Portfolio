@@ -78,6 +78,24 @@ img {
     max-width: 100%;
 }
 
+/* ======================== LENIS (recommended base styles) ======================== */
+html.lenis,
+html.lenis body {
+    height: auto;
+}
+
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
 /* ======================== PAGE LOADER ======================== */
 #loader {
     position: fixed;
@@ -123,8 +141,9 @@ img {
 .loader-fill {
     height: 100%;
     background: linear-gradient(90deg, var(--accent-color), rgba(180, 50, 70, 0.8));
-    width: 0%;
-    transition: width 0.8s var(--ease-expo);
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: left;
 }
 
 /* ======================== CUSTOM CURSOR ======================== */
@@ -153,7 +172,7 @@ img {
     z-index: 0;
     top: 0;
     left: 0;
-    mix-blend-mode: color-dodge;
+    /* No blend mode: blending a fixed layer re-composites the whole page on every scroll frame */
     /* No CSS transition — lerped via rAF in JS */
     will-change: transform;
 }
@@ -184,10 +203,12 @@ img {
     top: 0;
     left: 0;
     height: 3px;
-    width: 0%;
+    width: 100%;
     background: linear-gradient(90deg, var(--accent-color), rgba(180, 50, 70, 0.9));
     z-index: 9997;
-    transition: width 0.1s linear;
+    transform: scaleX(0);
+    transform-origin: left;
+    will-change: transform;
 }
 
 /* ======================== AMBIENT BACKGROUND ======================== */
@@ -201,6 +222,7 @@ img {
         radial-gradient(ellipse 60% 40% at 80% 70%, var(--accent-red) 0%, transparent 50%);
     opacity: 0.4;
     animation: ambientShift 15s ease-in-out infinite alternate;
+    will-change: transform, opacity;
 }
 
 @keyframes ambientShift {
@@ -221,6 +243,9 @@ img {
     pointer-events: none;
     z-index: 1;
     opacity: 0.035;
+    /* Own layer + a small tile, so the noise is rasterized once instead of at full screen size */
+    will-change: transform;
+    background-size: 200px 200px;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -254,12 +279,12 @@ img {
     justify-content: space-between;
     align-items: center;
     z-index: 1000;
-    transition: background 0.3s ease, backdrop-filter 0.3s ease;
+    transition: background 0.3s ease;
 }
 
+/* Nearly opaque, so no backdrop blur: it re-blurred the page under the header on every scroll frame */
 .minimal-header.scrolled {
-    background: rgba(10, 10, 10, 0.92);
-    backdrop-filter: blur(20px);
+    background: rgba(10, 10, 10, 0.94);
 }
 
 .logo {
@@ -806,7 +831,16 @@ body.light-mode .icon-moon {
     flex-direction: column;
 }
 
+.hero-stat .stat-num {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.15rem;
+}
+
 .hero-stat .stat-val {
+    display: inline-block;
+    text-align: left;
+    font-variant-numeric: tabular-nums;
     font-family: var(--font-display);
     font-size: 2rem;
     font-weight: 700;
@@ -818,6 +852,7 @@ body.light-mode .icon-moon {
     font-size: 1.2rem;
     color: var(--accent-color);
     line-height: 1;
+    opacity: 0;
 }
 
 .hero-stat .stat-label {
@@ -842,7 +877,8 @@ body.light-mode .icon-moon {
     border: 1px solid rgba(255, 255, 255, 0.15);
     background: rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(10px);
-    transition: var(--transition);
+    /* Only hover properties: GSAP animates this button's opacity/transform on load */
+    transition: background 0.35s var(--ease-smooth), border-color 0.35s var(--ease-smooth), letter-spacing 0.35s var(--ease-smooth);
     color: var(--text-primary);
 }
 
@@ -893,7 +929,7 @@ body.light-mode .icon-moon {
     width: 60px;
     height: 60px;
     animation: arrowBounce 2s ease-in-out infinite;
-    transition: var(--transition);
+    transition: transform 0.35s var(--ease-smooth);
     z-index: 5;
 }
 
@@ -2096,6 +2132,7 @@ body.light-mode .icon-moon {
     font-family: var(--font-display);
     font-size: 1.5rem;
     font-weight: 700;
+    text-transform: uppercase;
     margin: 0.5rem 0 1rem;
 }
 
@@ -2919,4 +2956,59 @@ body.light-mode .copyright-footer {
 body.light-mode .footer-left,
 body.light-mode .footer-right {
     color: #9ca3af;
+}
+
+/* ============================================================
+   ROBOT BUDDY (mascot.js)
+   ============================================================ */
+.robot-buddy {
+    position: fixed;
+    right: 24px;
+    bottom: 20px;
+    z-index: 1500;
+    width: 92px;
+    height: 99px;
+    padding: 0;
+    background: none;
+    border: 0;
+    cursor: inherit; /* follow the page: hidden when the custom cursor is active */
+    -webkit-tap-highlight-color: transparent;
+}
+
+.robot-buddy svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    transform-origin: 50% 100%;
+    transition: transform 0.6s var(--ease-expo);
+    filter: drop-shadow(0 8px 18px rgba(136, 92, 245, 0.35));
+}
+
+.robot-buddy .rb-shadow {
+    fill: rgba(0, 0, 0, 0.45);
+    opacity: 0.7;
+}
+
+/* Grows a little when the contact section is on screen (the button itself is moved by GSAP) */
+.robot-buddy.at-contact svg {
+    transform: scale(1.25);
+}
+
+.robot-buddy:focus-visible {
+    outline: 2px solid #885cf5;
+    outline-offset: 4px;
+    border-radius: 50%;
+}
+
+body.light-mode .robot-buddy .rb-shadow {
+    fill: rgba(0, 0, 0, 0.18);
+}
+
+@media (max-width: 768px) {
+    .robot-buddy {
+        width: 64px;
+        height: 69px;
+        right: 14px;
+        bottom: 14px;
+    }
 }

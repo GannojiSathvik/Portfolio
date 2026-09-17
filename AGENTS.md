@@ -27,10 +27,12 @@ not part of the site) unless asked to touch the Next.js layer specifically.
 2. **About** (`#about`)
 3. **Skills** (`#skills`)
 4. **Tech Stack** (`#techstack`)
-5. **Projects** (`#projects`) — exactly 3 project cards, each with matching
-   entries in `projectData` in `script.js` (used by the "Details" modal) and
-   in the scrolling marquee pills, which lives in the **Focus** section (see
-   below), not here — that placement was tried both ways and the user
+5. **Projects** (`#projects`) — exactly 3 project cards. Each card is the
+   single source for that project: its `data-pill` label feeds the scrolling
+   marquee (built by `buildProjectMarquee()` in `script.js`), and its
+   `<template class="project-details">` holds the full description + tech
+   list shown by the "Details" modal. The marquee lives in the **Focus**
+   section (see below), not here — that placement was tried both ways and the user
    settled on marquee-in-Focus. Keep the grid to exactly these 3; more were
    tried (6 total, adding AI Red Team Framework, AI-Powered ASPM, ShroudX)
    and explicitly rolled back as "clumsy" — don't re-add them without being
@@ -61,6 +63,28 @@ not part of the site) unless asked to touch the Next.js layer specifically.
    with wide letter-spacing, generous padding (3rem sides) so text never
    touches the screen edges; stacks and centers under 768px. A big, bold,
    colored version was tried and rejected — keep it minimal.
+
+## Robot buddy (`public/mascot.js`)
+
+A violet round robot fixed in the bottom-right corner, loaded before
+`script.js` and fully self-contained (builds its own SVG, needs GSAP).
+Its expressions were modelled on Pippo, the round robot from the Doraemon
+movie "Nobita and the New Steel Troops—Winged Angels" (glossy eyes, rosy
+cheeks, the body stays a plain sphere and the face does the acting) —
+inspired by, not a copy of, that character. Moods: idle, happy, excited,
+curious, surprised, sleepy, sad (tears), angry (red flush + manga 💢
+vein), shy, love. Triggers: click = happy, quick double click = excited,
+5+ clicks in 2s = angry with a 5s cooldown, hover = curious, eyes follow
+the cursor, 25s idle = sleeps with zzz, fast scroll = surprised, reaching
+`#contact` = excited + wave (once per load) and it steps up/grows via
+`.at-contact`, hovering a project card 1.5s = love. Auto reactions are
+rate-limited; reduced-motion users get face swaps without body motion.
+Random play: every 10–22s (when awake, not hovered, not mid-reaction) it
+picks one of roam (hops to 2–4 random screen spots and back; desktop
+only), peek (slides up the right edge and looks around), spin, or ride
+(for 12–20s it gets carried up while the page scrolls). It always leans
+into the scroll. GSAP moves the `.robot-buddy` button itself, so any CSS
+transform effect (like `.at-contact`) must go on its inner `svg`.
 
 ## Wording/tone (flagged, not yet fixed)
 
@@ -104,8 +128,8 @@ About section's education info.
   the site's card description and modal data both reflect it now.
 - Card face vs. modal split: cards show a short, curated tag list for visual
   elegance; the *full* per-project "Tech Stack:" list from the resume goes
-  into `projectData[n].tech` in `script.js`, only visible via the "Details"
-  modal on click. This was an explicit design instruction — don't dump full
+  into the card's `<template class="project-details">` list, only visible via
+  the "Details" modal on click. This was an explicit design instruction — don't dump full
   tech-stack lists onto the card faces.
 
 ## Known conventions / gotchas
@@ -114,8 +138,12 @@ About section's education info.
   `scroll-behavior: smooth` on `html` — it fights Lenis's own JS-driven
   easing and causes visible stutter.
 - The fixed header (`.minimal-header`) is ~108–112px tall (48px padding +
-  a 60px button). Any `lenis.scrollTo(target, { offset: ... })` call must use
-  `-112`, not a smaller number, or the target lands tucked under the header.
+  a 60px button). In-page jumps go through `scrollToSection()` in
+  `script.js`, which owns the `-112` offset — use it rather than calling
+  `lenis.scrollTo` with your own offset.
+- **Scroll locking** goes through `lockScroll(owner)` / `unlockScroll(owner)`
+  (the menu and the project modal both use it). It stops Lenis as well as
+  setting body overflow — body overflow alone does not stop Lenis.
   `.full-page` also carries `scroll-margin-top: 112px` as a CSS-level
   backstop for non-JS scroll (URL fragments, back/forward).
 - Contact links now live in only one place: the `.contact-info` list inside
@@ -153,9 +181,11 @@ About section's education info.
 
 - Local: `npm run dev` in this folder, then open
   `http://localhost:3000/index.html` (`/` just redirects there).
-- Deploy: GitHub repo `GannojiSathvik/Portfolio`, branch `main`. Vercel
-  auto-deploys on every push (live at `portfolio-nu-roan-62.vercel.app`).
-  Push only when the user asks.
+- Deploy: GitHub repo `GannojiSathvik/Portfolio`. Work happens on `main`,
+  but Vercel's **production branch is `master`** (the repo's default
+  branch) — pushes to `main` only make preview deployments. To update the
+  live site (`portfolio-nu-roan-62.vercel.app`), merge `main` into `master`
+  and push `master`. Push only when the user asks.
 - `CLAUDE.md` is a one-line `@AGENTS.md` import, so these notes load
   automatically in a new Claude session. Keep this file updated after
   changes.

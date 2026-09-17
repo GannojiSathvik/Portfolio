@@ -4,33 +4,6 @@
    ============================================================ */
 
 // ─────────────────────────────────────────
-// PROJECT DATA
-// ─────────────────────────────────────────
-const projectData = {
-    1: {
-        num: '001',
-        title: 'NEURONARRATOR',
-        desc: 'AI-powered assistive vision app for blind and visually impaired users. Uses real-time multimodal vision AI (Google Gemini) to describe surroundings, read currency denominations, and locate items via a voice-first, touch-first interface. Client-side face recognition via face-api.js, with speech, haptic, and spatial-audio feedback for hazard detection.',
-        tech: ['REACT', 'TYPESCRIPT', 'GEMINI VISION', 'FACE-API.JS', 'WEB SPEECH API', 'DEXIE.JS'],
-        github: '#'
-    },
-    3: {
-        num: '003',
-        title: 'INTELLIGENT CLOUD SCALING SYSTEM',
-        desc: 'Predictive auto-scaling system forecasting CPU utilization up to 5 minutes ahead, enabling proactive resource adjustment before demand spikes. Designed a 3-layer LSTM with an attention mechanism (128 hidden units, 24-step sequences) to learn temporal workload patterns from CPU, network, and business-context features. Built an event-driven AWS architecture using Lambda, S3, CloudWatch, EventBridge, API Gateway, and EC2 Auto Scaling. Applied MinMax normalization, early stopping, gradient clipping, and Adam optimization; achieved an R² of 0.94 and MAE of ~4.13% CPU.',
-        tech: ['PYTHON', 'PYTORCH', 'LSTM', 'AWS LAMBDA', 'AWS S3', 'CLOUDWATCH', 'EVENTBRIDGE', 'API GATEWAY', 'EC2 AUTO SCALING', 'DOCKER'],
-        github: '#'
-    },
-    4: {
-        num: '004',
-        title: 'HACKINTERVIEWAI',
-        desc: 'Built an AI-powered interview preparation platform supporting coding practice, resume analysis, mock interviews, and structured candidate feedback. Designed REST APIs for user workflows, interview sessions, dynamic question generation, and response evaluation, with AI services generating context-aware questions and personalized feedback from interview history.',
-        tech: ['PYTHON', 'FASTAPI', 'NODE.JS', 'EXPRESS.JS', 'MONGODB'],
-        github: '#'
-    }
-};
-
-// ─────────────────────────────────────────
 // DOM READY
 // ─────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
@@ -39,11 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.registerPlugin(ScrollTrigger);
 
     // ── Lenis Smooth Scroll ──────────────
-    const lenis = new Lenis({
-        duration: 1.2,
-        easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smooth: true
-    });
+    // lerp follows the wheel continuously; a fixed duration made every scroll trail behind
+    const lenis = new Lenis({ lerp: 0.12, wheelMultiplier: 1 });
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add(time => lenis.raf(time * 1000));
     gsap.ticker.lagSmoothing(0);
@@ -53,25 +23,50 @@ document.addEventListener('DOMContentLoaded', () => {
     window.scrollTo(0, 0);
     lenis.scrollTo(0, { immediate: true });
 
+    // ── Scroll Helpers ────────────────────
+    // The fixed header is ~112px tall, so every in-page jump stops just below it.
+    const scrollToSection = (target, duration = 1.4) =>
+        lenis.scrollTo(target, { offset: -112, duration });
+
+    // The menu and the modal can each hold the lock; scrolling resumes once both let go.
+    // Lenis drives the scrolling, so it has to be stopped too — body overflow alone won't hold it.
+    const scrollLocks = new Set();
+    const lockScroll = owner => {
+        scrollLocks.add(owner);
+        lenis.stop();
+        document.body.style.overflow = 'hidden';
+    };
+    const unlockScroll = owner => {
+        scrollLocks.delete(owner);
+        if (scrollLocks.size) return;
+        lenis.start();
+        document.body.style.overflow = '';
+    };
+
+    buildProjectMarquee();
+
     // ── Page Loader ───────────────────────
     const loader = document.getElementById('loader');
     const loaderFill = document.querySelector('.loader-fill');
+    // Build the hero entrance now (paused) so its starting state is applied while the
+    // loader still covers the page; otherwise the hero shows, vanishes, then fades back in.
+    const heroIntro = initHeroAnimation();
     if (loader) {
         gsap.to(loaderFill, {
-            width: '100%', duration: 1.2, ease: 'power2.inOut',
+            scaleX: 1, duration: 1.2, ease: 'power2.inOut',
             onComplete: () => {
                 gsap.to(loader, {
                     yPercent: -100, duration: 0.8, ease: 'power4.inOut',
                     onComplete: () => {
                         loader.style.display = 'none';
                         document.body.classList.remove('loading');
-                        initHeroAnimation();
                     }
                 });
+                gsap.delayedCall(0.3, () => heroIntro.play());
             }
         });
     } else {
-        initHeroAnimation();
+        heroIntro.play();
     }
 
     // ── Custom Cursor ──────────────────────
@@ -80,39 +75,41 @@ document.addEventListener('DOMContentLoaded', () => {
         const ball = document.getElementById('ball');
         let cx = 0, cy = 0, bx = 0, by = 0;
 
+        // quickTo reuses one tween per axis instead of creating a new tween on every mousemove
+        const cursorX = gsap.quickTo(cursor, 'x', { duration: 0.1, ease: 'none' });
+        const cursorY = gsap.quickTo(cursor, 'y', { duration: 0.1, ease: 'none' });
         document.addEventListener('mousemove', e => {
             cx = e.clientX; cy = e.clientY;
-            gsap.to(cursor, { x: cx, y: cy, duration: 0.1, ease: 'none' });
-        });
+            cursorX(cx); cursorY(cy);
+        }, { passive: true });
 
         // Lag ball slightly behind cursor
+        const ballX = gsap.quickSetter(ball, 'x', 'px');
+        const ballY = gsap.quickSetter(ball, 'y', 'px');
         gsap.ticker.add(() => {
-            bx += (cx - bx) * 0.08;
-            by += (cy - by) * 0.08;
-            gsap.set(ball, { x: bx, y: by });
+            const dx = cx - bx, dy = cy - by;
+            if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) return; // settled: skip the write
+            bx += dx * 0.08;
+            by += dy * 0.08;
+            ballX(bx); ballY(by);
         });
 
         // Cursor scale on interactive elements
         const hoverEls = document.querySelectorAll('a, button, .project-card, .project-pill, .filter-btn, .floating-sphere');
         hoverEls.forEach(el => {
-            el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 4, duration: 0.25, ease: 'power4' }));
-            el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, duration: 0.25, ease: 'power4' }));
+            el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 4, duration: 0.25, ease: 'power4', overwrite: 'auto' }));
+            el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, duration: 0.25, ease: 'power4', overwrite: 'auto' }));
         });
     }
 
     // ── Scroll Progress Bar ───────────────
-    const progressBar = document.getElementById('scroll-progress');
-    window.addEventListener('scroll', () => {
-        const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
-        if (progressBar) progressBar.style.width = pct + '%';
-    });
-
     // ── Header Scroll Effect ──────────────
+    // Both read Lenis's own scroll values, so there's no layout read per frame.
+    const progressBar = document.getElementById('scroll-progress');
     const header = document.getElementById('main-header');
-    window.addEventListener('scroll', () => {
-        if (header) {
-            header.classList.toggle('scrolled', window.scrollY > 80);
-        }
+    lenis.on('scroll', ({ scroll, progress }) => {
+        if (progressBar) progressBar.style.transform = `scaleX(${progress || 0})`;
+        if (header) header.classList.toggle('scrolled', scroll > 80);
     });
 
     // ── Hamburger Navigation ──────────────
@@ -122,14 +119,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const navOverlay = document.getElementById('nav-overlay');
     const navLinks = document.querySelectorAll('.nav-link');
 
-    const openNav = () => { navPanel.classList.add('active'); document.body.style.overflow = 'hidden'; };
-    const closeNav = () => { navPanel.classList.remove('active'); document.body.style.overflow = ''; };
+    const openNav = () => { navPanel.classList.add('active'); lockScroll('nav'); };
+    const closeNav = () => { navPanel.classList.remove('active'); unlockScroll('nav'); };
 
     if (menuToggle) menuToggle.addEventListener('click', openNav);
     if (navClose) navClose.addEventListener('click', closeNav);
     if (navOverlay) navOverlay.addEventListener('click', closeNav);
     navLinks.forEach(l => l.addEventListener('click', closeNav));
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNav(); });
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && navPanel.classList.contains('active')) closeNav();
+    });
 
     // ── Nav Link Stagger on Open ──────────
     const navItems = document.querySelectorAll('.nav-item');
@@ -148,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
         anchor.addEventListener('click', e => {
             e.preventDefault();
             const target = document.querySelector(anchor.getAttribute('href'));
-            if (target) lenis.scrollTo(target, { offset: -112, duration: 1.4 });
+            if (target) scrollToSection(target);
         });
     });
 
@@ -157,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (scrollIndicator) {
         scrollIndicator.addEventListener('click', () => {
             const about = document.getElementById('about');
-            if (about) lenis.scrollTo(about, { offset: -112, duration: 1.2 });
+            if (about) scrollToSection(about, 1.2);
         });
     }
 
@@ -173,18 +172,6 @@ document.addEventListener('DOMContentLoaded', () => {
             heroTitle.innerHTML = 'GANNOJI<br>SATHVIK';
         });
     }
-
-    // ── Hero Count-up Stats ───────────────
-    document.querySelectorAll('.stat-val[data-count]').forEach(el => {
-        const target = parseInt(el.dataset.count);
-        let current = 0;
-        const step = () => {
-            current++;
-            el.textContent = current;
-            if (current < target) requestAnimationFrame(step);
-        };
-        setTimeout(step, 1200);
-    });
 
     // ── Floating Sphere ───────────────────
     const sphere = document.getElementById('floating-sphere');
@@ -214,24 +201,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalClose = document.querySelector('.modal-close');
     const modalOverlay = document.querySelector('.modal-overlay');
 
-    const openModal = (id) => {
-        const p = projectData[id];
-        if (!p || !modal) return;
-        if (modalNum) modalNum.textContent = p.num;
-        if (modalTitle) modalTitle.textContent = p.title;
-        if (modalDesc) modalDesc.textContent = p.desc;
-        if (modalTech) modalTech.innerHTML = p.tech.map(t => `<span>${t}</span>`).join('');
-        if (modalGithub) modalGithub.href = p.github;
+    // Everything the modal shows comes from the project's card.
+    const openModal = (card) => {
+        if (!card || !modal) return;
+        const details = card.querySelector('template.project-details').content;
+        if (modalNum) modalNum.textContent = card.querySelector('.project-num').textContent;
+        if (modalTitle) modalTitle.textContent = card.querySelector('.project-card-title').textContent;
+        if (modalDesc) modalDesc.textContent = details.querySelector('p').textContent;
+        if (modalTech) modalTech.replaceChildren(...[...details.querySelectorAll('li')].map(li => {
+            const tag = document.createElement('span');
+            tag.textContent = li.textContent;
+            return tag;
+        }));
+        if (modalGithub) modalGithub.href = card.querySelector('.project-link').getAttribute('href');
         modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
+        lockScroll('modal');
     };
     const closeModal = () => {
         if (modal) modal.classList.remove('active');
-        document.body.style.overflow = '';
+        unlockScroll('modal');
     };
 
-    document.querySelectorAll('.project-expand, .project-pill').forEach(el => {
-        el.addEventListener('click', () => openModal(el.dataset.project));
+    document.querySelectorAll('.project-expand').forEach(el => {
+        el.addEventListener('click', () => openModal(el.closest('.project-card')));
+    });
+    document.querySelectorAll('.project-pill').forEach(el => {
+        el.addEventListener('click', () =>
+            openModal(document.querySelector(`.project-card[data-project="${el.dataset.project}"]`)));
     });
     if (modalClose) modalClose.addEventListener('click', closeModal);
     if (modalOverlay) modalOverlay.addEventListener('click', closeModal);
@@ -348,15 +344,80 @@ document.addEventListener('DOMContentLoaded', () => {
 // HERO ENTRANCE ANIMATION
 // ─────────────────────────────────────────
 function initHeroAnimation() {
-    const tl = gsap.timeline();
+    const tl = gsap.timeline({ paused: true });
     const ease = 'expo.out';
 
     tl.from('.hero-role-tag', { opacity: 0, y: 20, duration: 0.8, ease })
         .from('.hero-tagline', { opacity: 0, y: 30, duration: 1, ease }, '-=0.5')
-        .from('.hero-stat', { opacity: 0, y: 20, duration: 0.7, stagger: 0.12, ease }, '-=0.6')
+        .addLabel('stats', '-=0.6')
+        .from('.hero-stat', { opacity: 0, y: 20, duration: 0.7, stagger: 0.12, ease }, 'stats')
         .from('.hero-cta', { opacity: 0, y: 20, duration: 0.6, ease }, '-=0.4')
         .from('.hero-huge-title', { opacity: 0, y: 50, duration: 1.2, ease }, '-=0.9')
-        .from('.hero-scroll-indicator', { opacity: 0, y: 20, duration: 0.6, ease }, '-=0.3')
+        // opacity only: the arrow's CSS bounce animation owns its transform
+        .from('.hero-scroll-indicator', { opacity: 0, duration: 0.6, ease }, '-=0.3')
         .from('.logo', { opacity: 0, x: -20, duration: 0.6, ease }, 0.2)
-        .from('.header-right', { opacity: 0, x: 20, duration: 0.6, ease }, 0.2);
+        .from('.header-right', { opacity: 0, x: 20, duration: 0.6, ease }, 0.2)
+        .add(countUpHeroStats(), 'stats');
+    return tl;
+}
+
+// Counts each hero stat up from 0: blurred while it's moving fast, sharpening as it
+// slows, then a brief accent glow when it lands. Runs inside the hero timeline so it
+// starts only after the loader has gone, on every page load.
+function countUpHeroStats() {
+    const tl = gsap.timeline();
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return tl.set('.hero-stat .stat-plus', { opacity: 1 });
+    }
+    const duration = 3;
+    document.querySelectorAll('.stat-val[data-count]').forEach((el, i) => {
+        const target = parseInt(el.dataset.count, 10);
+        const plus = el.parentElement.querySelector('.stat-plus');
+        const counter = { value: 0 };
+        const start = i * 0.2;
+        // reserve the final width so the "+" doesn't shift as digits are added
+        el.style.minWidth = `${String(target).length}ch`;
+        el.textContent = 0;
+
+        tl.to(counter, {
+            value: target,
+            duration,
+            ease: 'power2.out',
+            onUpdate: () => {
+                const shown = Math.round(counter.value);
+                if (el.textContent !== String(shown)) el.textContent = shown;
+            }
+        }, start)
+            .fromTo(el, { filter: 'blur(6px)', opacity: 0.5 },
+                { filter: 'blur(0px)', opacity: 1, duration: duration * 0.8, ease: 'power2.out', clearProps: 'filter' }, start)
+            .to(el, {
+                textShadow: '0 0 18px rgba(0, 212, 255, 0.85)',
+                duration: 0.35, ease: 'power2.out',
+                yoyo: true, repeat: 1
+            }, start + duration - 0.25);
+        if (plus) {
+            tl.fromTo(plus, { opacity: 0, scale: 0.4 },
+                { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(3)' }, start + duration - 0.25);
+        }
+    });
+    return tl;
+}
+
+// Fills the Focus-section marquee with one pill per project card. The set is repeated
+// 4x so it always overflows the viewport, then the whole run is doubled so the CSS
+// translateX(-50%) loop is seamless.
+function buildProjectMarquee() {
+    const track = document.querySelector('.projects-scroll-content');
+    if (!track) return;
+    const pills = [...document.querySelectorAll('.project-card[data-pill]')].map(card => {
+        const pill = document.createElement('button');
+        pill.className = 'project-pill';
+        pill.dataset.project = card.dataset.project;
+        const label = document.createElement('span');
+        label.textContent = card.dataset.pill;
+        pill.append(label);
+        return pill;
+    });
+    const half = Array.from({ length: 4 }, () => pills.map(p => p.cloneNode(true))).flat();
+    track.append(...half, ...half.map(p => p.cloneNode(true)));
 }
