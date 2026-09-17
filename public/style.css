@@ -123,8 +123,9 @@ img {
 .loader-fill {
     height: 100%;
     background: linear-gradient(90deg, var(--accent-color), rgba(180, 50, 70, 0.8));
-    width: 0%;
-    transition: width 0.8s var(--ease-expo);
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: left;
 }
 
 /* ======================== CUSTOM CURSOR ======================== */
@@ -184,10 +185,12 @@ img {
     top: 0;
     left: 0;
     height: 3px;
-    width: 0%;
+    width: 100%;
     background: linear-gradient(90deg, var(--accent-color), rgba(180, 50, 70, 0.9));
     z-index: 9997;
-    transition: width 0.1s linear;
+    transform: scaleX(0);
+    transform-origin: left;
+    will-change: transform;
 }
 
 /* ======================== AMBIENT BACKGROUND ======================== */
@@ -813,12 +816,31 @@ body.light-mode .icon-moon {
 }
 
 .hero-stat .stat-val {
+    display: inline-flex;
+    height: 1.1em;
+    overflow: hidden;
     font-variant-numeric: tabular-nums;
     font-family: var(--font-display);
     font-size: 2rem;
     font-weight: 700;
     line-height: 1;
     color: #fff;
+}
+
+/* Odometer digits: one column per place value, rolled with yPercent in script.js */
+.hero-stat .stat-roll-col {
+    display: flex;
+    flex-direction: column;
+    /* size to the whole strip, not the 1-digit window, so yPercent is measured against it */
+    align-self: flex-start;
+    will-change: transform;
+}
+
+.hero-stat .stat-roll-col span {
+    display: block;
+    height: 1.1em;
+    line-height: 1.1em;
+    text-align: center;
 }
 
 .hero-stat .stat-plus {
@@ -850,7 +872,8 @@ body.light-mode .icon-moon {
     border: 1px solid rgba(255, 255, 255, 0.15);
     background: rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(10px);
-    transition: var(--transition);
+    /* Only hover properties: GSAP animates this button's opacity/transform on load */
+    transition: background 0.35s var(--ease-smooth), border-color 0.35s var(--ease-smooth), letter-spacing 0.35s var(--ease-smooth);
     color: var(--text-primary);
 }
 
@@ -901,7 +924,7 @@ body.light-mode .icon-moon {
     width: 60px;
     height: 60px;
     animation: arrowBounce 2s ease-in-out infinite;
-    transition: var(--transition);
+    transition: transform 0.35s var(--ease-smooth);
     z-index: 5;
 }
 

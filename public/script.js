@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const heroIntro = initHeroAnimation();
     if (loader) {
         gsap.to(loaderFill, {
-            width: '100%', duration: 1.2, ease: 'power2.inOut',
+            scaleX: 1, duration: 1.2, ease: 'power2.inOut',
             onComplete: () => {
                 gsap.to(loader, {
                     yPercent: -100, duration: 0.8, ease: 'power4.inOut',
@@ -78,10 +78,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const ball = document.getElementById('ball');
         let cx = 0, cy = 0, bx = 0, by = 0;
 
+        // quickTo reuses one tween per axis instead of creating a new tween on every mousemove
+        const cursorX = gsap.quickTo(cursor, 'x', { duration: 0.1, ease: 'none' });
+        const cursorY = gsap.quickTo(cursor, 'y', { duration: 0.1, ease: 'none' });
         document.addEventListener('mousemove', e => {
             cx = e.clientX; cy = e.clientY;
-            gsap.to(cursor, { x: cx, y: cy, duration: 0.1, ease: 'none' });
-        });
+            cursorX(cx); cursorY(cy);
+        }, { passive: true });
 
         // Lag ball slightly behind cursor
         gsap.ticker.add(() => {
@@ -93,24 +96,19 @@ document.addEventListener('DOMContentLoaded', () => {
         // Cursor scale on interactive elements
         const hoverEls = document.querySelectorAll('a, button, .project-card, .project-pill, .filter-btn, .floating-sphere');
         hoverEls.forEach(el => {
-            el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 4, duration: 0.25, ease: 'power4' }));
-            el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, duration: 0.25, ease: 'power4' }));
+            el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 4, duration: 0.25, ease: 'power4', overwrite: 'auto' }));
+            el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, duration: 0.25, ease: 'power4', overwrite: 'auto' }));
         });
     }
 
     // ── Scroll Progress Bar ───────────────
-    const progressBar = document.getElementById('scroll-progress');
-    window.addEventListener('scroll', () => {
-        const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
-        if (progressBar) progressBar.style.width = pct + '%';
-    });
-
     // ── Header Scroll Effect ──────────────
+    // Both read Lenis's own scroll values, so there's no layout read per frame.
+    const progressBar = document.getElementById('scroll-progress');
     const header = document.getElementById('main-header');
-    window.addEventListener('scroll', () => {
-        if (header) {
-            header.classList.toggle('scrolled', window.scrollY > 80);
-        }
+    lenis.on('scroll', ({ scroll, progress }) => {
+        if (progressBar) progressBar.style.transform = `scaleX(${progress || 0})`;
+        if (header) header.classList.toggle('scrolled', scroll > 80);
     });
 
     // ── Hamburger Navigation ──────────────
@@ -354,35 +352,58 @@ function initHeroAnimation() {
         .from('.hero-stat', { opacity: 0, y: 20, duration: 0.7, stagger: 0.12, ease }, 'stats')
         .from('.hero-cta', { opacity: 0, y: 20, duration: 0.6, ease }, '-=0.4')
         .from('.hero-huge-title', { opacity: 0, y: 50, duration: 1.2, ease }, '-=0.9')
-        .from('.hero-scroll-indicator', { opacity: 0, y: 20, duration: 0.6, ease }, '-=0.3')
+        // opacity only: the arrow's CSS bounce animation owns its transform
+        .from('.hero-scroll-indicator', { opacity: 0, duration: 0.6, ease }, '-=0.3')
         .from('.logo', { opacity: 0, x: -20, duration: 0.6, ease }, 0.2)
         .from('.header-right', { opacity: 0, x: 20, duration: 0.6, ease }, 0.2)
         .add(countUpHeroStats(), 'stats');
     return tl;
 }
 
-// Counts each hero stat up from 0; runs inside the hero timeline so it starts
-// only after the loader has gone, on every page load.
+// Rolls each hero stat up from 0 like an odometer; runs inside the hero timeline so
+// it starts only after the loader has gone, on every page load.
 function countUpHeroStats() {
     const tl = gsap.timeline();
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return tl.set('.hero-stat .stat-plus', { opacity: 1 });
+    }
     document.querySelectorAll('.stat-val[data-count]').forEach((el, i) => {
-        const target = parseInt(el.dataset.count, 10);
+        const columns = buildDigitRoll(el, parseInt(el.dataset.count, 10));
+        tl.to(columns, {
+            // land each column on its last cell
+            yPercent: (_, col) => -100 * (col.children.length - 1) / col.children.length,
+            duration: 1.8,
+            ease: 'expo.out'
+        }, i * 0.12);
         const plus = el.parentElement.querySelector('.stat-plus');
-        const counter = { value: 0 };
-        el.textContent = 0;
-        tl.to(counter, {
-            value: target,
-            duration: reduceMotion ? 0 : 1.8 + target * 0.02,
-            ease: 'power3.out',
-            onUpdate: () => { el.textContent = Math.round(counter.value); }
-        }, i * 0.15);
         if (plus) {
             tl.fromTo(plus, { opacity: 0, scale: 0.4 },
-                { opacity: 1, scale: 1, duration: reduceMotion ? 0 : 0.5, ease: 'back.out(3)' }, '>-0.2');
+                { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(3)' }, '>-1.1');
         }
     });
     return tl;
+}
+
+// Replaces the number's text with one column per place value. Each column lists the
+// digit that place shows as the count goes 0 → target (e.g. 25: tens "", 1, 2; ones
+// 0…9, 0…9, 0…5), so rolling every column to its end reads as the number counting up.
+function buildDigitRoll(el, target) {
+    const places = String(target).length;
+    el.setAttribute('aria-label', target);
+    const columns = Array.from({ length: places }, (_, d) => {
+        const place = 10 ** (places - 1 - d);
+        const col = document.createElement('span');
+        col.className = 'stat-roll-col';
+        col.setAttribute('aria-hidden', 'true');
+        for (let k = 0; k <= Math.floor(target / place); k++) {
+            const cell = document.createElement('span');
+            cell.textContent = place > 1 && k === 0 ? '' : k % 10;
+            col.append(cell);
+        }
+        return col;
+    });
+    el.replaceChildren(...columns);
+    return columns;
 }
 
 // Fills the Focus-section marquee with one pill per project card. The set is repeated
