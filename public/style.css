@@ -1281,24 +1281,6 @@ body.light-mode .icon-moon {
     transform: translateY(-2px);
 }
 
-.skill-tag.accent {
-    border-color: rgba(var(--accent-rgb), 0.25);
-    color: rgba(var(--accent-rgb), 0.75);
-}
-
-.skill-tag.accent:hover {
-    background: rgba(var(--accent-rgb), 0.08);
-}
-
-.skill-tag.cloud {
-    border-color: rgba(var(--accent-rgb), 0.25);
-    color: rgba(var(--accent-rgb), 0.9);
-}
-
-.skill-tag.cloud:hover {
-    background: rgba(var(--accent-rgb), 0.08);
-}
-
 /* Mini orbit (decorative) */
 .skills-orbit-mini {
     position: relative;
@@ -2941,4 +2923,110 @@ body.light-mode .copyright-footer {
 body.light-mode .footer-left,
 body.light-mode .footer-right {
     color: #9ca3af;
+}
+
+/* ============================================================
+   GROK BOT–STYLE TINTS
+   Calm grey base; each tag / pill gets its own soft brand tint.
+   ============================================================ */
+:root {
+    --tint-teal: #54b9a6;
+    --tint-violet: #885cf5;
+    --tint-magenta: #eb4699;
+    --tint-orange: #f19d38;
+    --tint-blue: #3c82f6;
+    --tint-green: #5bc67a;
+    --tint-red: #ea4045;
+}
+
+:is(.skill-tag, .highlight-chip, .project-tech-tags span, .modal-tech span):nth-child(6n+1) { --tint: var(--tint-teal); }
+:is(.skill-tag, .highlight-chip, .project-tech-tags span, .modal-tech span):nth-child(6n+2) { --tint: var(--tint-violet); }
+:is(.skill-tag, .highlight-chip, .project-tech-tags span, .modal-tech span):nth-child(6n+3) { --tint: var(--tint-magenta); }
+:is(.skill-tag, .highlight-chip, .project-tech-tags span, .modal-tech span):nth-child(6n+4) { --tint: var(--tint-orange); }
+:is(.skill-tag, .highlight-chip, .project-tech-tags span, .modal-tech span):nth-child(6n+5) { --tint: var(--tint-blue); }
+:is(.skill-tag, .highlight-chip, .project-tech-tags span, .modal-tech span):nth-child(6n) { --tint: var(--tint-green); }
+
+/* One colour per project, shared by its card tag and its marquee pill */
+.project-card[data-project="1"] .project-cat-tag, .project-pill[data-project="1"] { --tint: var(--tint-violet); }
+.project-card[data-project="3"] .project-cat-tag, .project-pill[data-project="3"] { --tint: var(--tint-teal); }
+.project-card[data-project="4"] .project-cat-tag, .project-pill[data-project="4"] { --tint: var(--tint-magenta); }
+.side-pill.left { --tint: var(--tint-teal); }
+.side-pill.right { --tint: var(--tint-violet); }
+
+:is(.skill-tag, .highlight-chip, .project-tech-tags span, .modal-tech span, .project-cat-tag, .project-pill, .side-pill) {
+    background: color-mix(in srgb, var(--tint, #888) 14%, transparent);
+    border-color: color-mix(in srgb, var(--tint, #888) 30%, transparent);
+    color: color-mix(in srgb, var(--tint, #888) 70%, #ffffff);
+}
+
+:is(.skill-tag, .highlight-chip):hover {
+    background: color-mix(in srgb, var(--tint, #888) 26%, transparent);
+    border-color: color-mix(in srgb, var(--tint, #888) 50%, transparent);
+    color: color-mix(in srgb, var(--tint, #888) 55%, #ffffff);
+}
+
+.project-pill::before {
+    background: var(--tint, #fff);
+}
+
+.project-pill:hover span {
+    color: #ffffff;
+}
+
+body.light-mode :is(.skill-tag, .highlight-chip, .project-tech-tags span, .modal-tech span, .project-cat-tag, .project-pill, .side-pill) {
+    color: color-mix(in srgb, var(--tint, #888) 75%, #000000);
+}
+
+/* ============================================================
+   ROBOT BUDDY (mascot.js)
+   ============================================================ */
+.robot-buddy {
+    position: fixed;
+    right: 24px;
+    bottom: 20px;
+    z-index: 1500;
+    width: 92px;
+    height: 99px;
+    padding: 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    transition: transform 0.6s var(--ease-expo);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.robot-buddy svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    filter: drop-shadow(0 8px 18px rgba(136, 92, 245, 0.35));
+}
+
+.robot-buddy .rb-shadow {
+    fill: rgba(0, 0, 0, 0.45);
+    opacity: 0.7;
+}
+
+/* Steps up and grows a little when the contact section is on screen */
+.robot-buddy.at-contact {
+    transform: translate(-12px, -28px) scale(1.25);
+}
+
+.robot-buddy:focus-visible {
+    outline: 2px solid var(--tint-violet);
+    outline-offset: 4px;
+    border-radius: 50%;
+}
+
+body.light-mode .robot-buddy .rb-shadow {
+    fill: rgba(0, 0, 0, 0.18);
+}
+
+@media (max-width: 768px) {
+    .robot-buddy {
+        width: 64px;
+        height: 69px;
+        right: 14px;
+        bottom: 14px;
+    }
 }

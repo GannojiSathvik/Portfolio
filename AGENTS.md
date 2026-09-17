@@ -64,6 +64,22 @@ not part of the site) unless asked to touch the Next.js layer specifically.
    touches the screen edges; stacks and centers under 768px. A big, bold,
    colored version was tried and rejected — keep it minimal.
 
+## Robot buddy (`public/mascot.js`)
+
+A violet round robot fixed in the bottom-right corner, loaded before
+`script.js` and fully self-contained (builds its own SVG, needs GSAP).
+Its expressions were modelled on Pippo, the round robot from the Doraemon
+movie "Nobita and the New Steel Troops—Winged Angels" (glossy eyes, rosy
+cheeks, the body stays a plain sphere and the face does the acting) —
+inspired by, not a copy of, that character. Moods: idle, happy, excited,
+curious, surprised, sleepy, sad (tears), angry (red flush + manga 💢
+vein), shy, love. Triggers: click = happy, quick double click = excited,
+5+ clicks in 2s = angry with a 5s cooldown, hover = curious, eyes follow
+the cursor, 25s idle = sleeps with zzz, fast scroll = surprised, reaching
+`#contact` = excited + wave (once per load) and it steps up/grows via
+`.at-contact`, hovering a project card 1.5s = love. Auto reactions are
+rate-limited; reduced-motion users get face swaps without body motion.
+
 ## Wording/tone (flagged, not yet fixed)
 
 The user asked for an opinion on copy tone (professional-funny vs. cringe).
@@ -112,13 +128,14 @@ About section's education info.
 
 ## Known conventions / gotchas
 
-- **Palette is monochrome (Grok-style), chosen by the user.** Greys plus
-  white as the only accent. Colors come from `:root` variables; accent
-  tints use `rgba(var(--accent-rgb), a)` so light mode (which flips
-  `--accent-rgb` to near-black) keeps working. Don't reintroduce neon
-  cyan, pink, red or purple tints — the user called them cheap. Colorful
-  assets (hero/contact videos, round-button bubble images) are shown in
-  greyscale via CSS `filter`.
+- **Palette = Grok Bot page style, chosen by the user.** Calm grey/black
+  base with white text; tags, chips and pills each get a soft brand tint
+  (teal, violet, magenta, orange, blue, green — `--tint-*` in the
+  "GROK BOT–STYLE TINTS" block at the bottom of `style.css`). Tags cycle
+  tints by `nth-child`; each project has one tint shared by its card tag
+  and marquee pill. Accent highlights still use `rgba(var(--accent-rgb), a)`.
+  Don't bring back neon cyan / pink / maroon glows — the user called them
+  cheap. Colorful videos and button bubble images are shown in greyscale.
 - **Cursor:** the normal system pointer is always visible. `#cursor` is a
   thin ring that follows it and appears only while hovering links,
   buttons, cards and pills. The old always-on white dot and big glow ball
