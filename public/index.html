@@ -468,7 +468,7 @@
                 <!-- Project Cards Grid -->
                 <div class="projects-grid" id="projects-grid">
 
-                    <article class="project-card stagger-item" data-category="ai-ml web" data-project="1">
+                    <article class="project-card stagger-item" data-category="ai-ml web" data-project="1" data-pill="NEURONARRATOR">
                         <div class="project-card-img">
                             <div class="project-card-img-placeholder">
                                 <svg viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -500,13 +500,18 @@
                                     </svg>
                                     GitHub
                                 </a>
-                                <button class="project-expand" data-project="1" aria-label="View details">Details
+                                <button class="project-expand" aria-label="View details">Details
                                     ↗</button>
                             </div>
                         </div>
+                        <!-- Full write-up shown in the Details modal -->
+                        <template class="project-details">
+                            <p>AI-powered assistive vision app for blind and visually impaired users. Uses real-time multimodal vision AI (Google Gemini) to describe surroundings, read currency denominations, and locate items via a voice-first, touch-first interface. Client-side face recognition via face-api.js, with speech, haptic, and spatial-audio feedback for hazard detection.</p>
+                            <ul><li>REACT</li><li>TYPESCRIPT</li><li>GEMINI VISION</li><li>FACE-API.JS</li><li>WEB SPEECH API</li><li>DEXIE.JS</li></ul>
+                        </template>
                     </article>
 
-                    <article class="project-card stagger-item" data-category="cloud" data-project="3">
+                    <article class="project-card stagger-item" data-category="cloud" data-project="3" data-pill="CLOUD SCALING SYSTEM">
                         <div class="project-card-img">
                             <div class="project-card-img-placeholder">
                                 <svg viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -536,13 +541,18 @@
                                     </svg>
                                     GitHub
                                 </a>
-                                <button class="project-expand" data-project="3" aria-label="View details">Details
+                                <button class="project-expand" aria-label="View details">Details
                                     ↗</button>
                             </div>
                         </div>
+                        <!-- Full write-up shown in the Details modal -->
+                        <template class="project-details">
+                            <p>Predictive auto-scaling system forecasting CPU utilization up to 5 minutes ahead, enabling proactive resource adjustment before demand spikes. Designed a 3-layer LSTM with an attention mechanism (128 hidden units, 24-step sequences) to learn temporal workload patterns from CPU, network, and business-context features. Built an event-driven AWS architecture using Lambda, S3, CloudWatch, EventBridge, API Gateway, and EC2 Auto Scaling. Applied MinMax normalization, early stopping, gradient clipping, and Adam optimization; achieved an R² of 0.94 and MAE of ~4.13% CPU.</p>
+                            <ul><li>PYTHON</li><li>PYTORCH</li><li>LSTM</li><li>AWS LAMBDA</li><li>AWS S3</li><li>CLOUDWATCH</li><li>EVENTBRIDGE</li><li>API GATEWAY</li><li>EC2 AUTO SCALING</li><li>DOCKER</li></ul>
+                        </template>
                     </article>
 
-                    <article class="project-card stagger-item" data-category="ai-ml web" data-project="4">
+                    <article class="project-card stagger-item" data-category="ai-ml web" data-project="4" data-pill="HACKINTERVIEWAI">
                         <div class="project-card-img">
                             <div class="project-card-img-placeholder">
                                 <svg viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -574,10 +584,15 @@
                                     </svg>
                                     GitHub
                                 </a>
-                                <button class="project-expand" data-project="4" aria-label="View details">Details
+                                <button class="project-expand" aria-label="View details">Details
                                     ↗</button>
                             </div>
                         </div>
+                        <!-- Full write-up shown in the Details modal -->
+                        <template class="project-details">
+                            <p>Built an AI-powered interview preparation platform supporting coding practice, resume analysis, mock interviews, and structured candidate feedback. Designed REST APIs for user workflows, interview sessions, dynamic question generation, and response evaluation, with AI services generating context-aware questions and personalized feedback from interview history.</p>
+                            <ul><li>PYTHON</li><li>FASTAPI</li><li>NODE.JS</li><li>EXPRESS.JS</li><li>MONGODB</li></ul>
+                        </template>
                     </article>
 
                 </div>
@@ -655,32 +670,7 @@
                 <!-- Project Pills Marquee -->
                 <div class="projects-scroll-track stagger-item">
                     <div class="projects-scroll-content">
-                        <!-- First half: the set repeated 4x so it always overflows the viewport -->
-                        <button class="project-pill" data-project="1"><span>NEURONARRATOR</span></button>
-                        <button class="project-pill" data-project="3"><span>CLOUD SCALING SYSTEM</span></button>
-                        <button class="project-pill" data-project="4"><span>HACKINTERVIEWAI</span></button>
-                        <button class="project-pill" data-project="1"><span>NEURONARRATOR</span></button>
-                        <button class="project-pill" data-project="3"><span>CLOUD SCALING SYSTEM</span></button>
-                        <button class="project-pill" data-project="4"><span>HACKINTERVIEWAI</span></button>
-                        <button class="project-pill" data-project="1"><span>NEURONARRATOR</span></button>
-                        <button class="project-pill" data-project="3"><span>CLOUD SCALING SYSTEM</span></button>
-                        <button class="project-pill" data-project="4"><span>HACKINTERVIEWAI</span></button>
-                        <button class="project-pill" data-project="1"><span>NEURONARRATOR</span></button>
-                        <button class="project-pill" data-project="3"><span>CLOUD SCALING SYSTEM</span></button>
-                        <button class="project-pill" data-project="4"><span>HACKINTERVIEWAI</span></button>
-                        <!-- Second half: identical to the first, so translateX(-50%) loops seamlessly -->
-                        <button class="project-pill" data-project="1"><span>NEURONARRATOR</span></button>
-                        <button class="project-pill" data-project="3"><span>CLOUD SCALING SYSTEM</span></button>
-                        <button class="project-pill" data-project="4"><span>HACKINTERVIEWAI</span></button>
-                        <button class="project-pill" data-project="1"><span>NEURONARRATOR</span></button>
-                        <button class="project-pill" data-project="3"><span>CLOUD SCALING SYSTEM</span></button>
-                        <button class="project-pill" data-project="4"><span>HACKINTERVIEWAI</span></button>
-                        <button class="project-pill" data-project="1"><span>NEURONARRATOR</span></button>
-                        <button class="project-pill" data-project="3"><span>CLOUD SCALING SYSTEM</span></button>
-                        <button class="project-pill" data-project="4"><span>HACKINTERVIEWAI</span></button>
-                        <button class="project-pill" data-project="1"><span>NEURONARRATOR</span></button>
-                        <button class="project-pill" data-project="3"><span>CLOUD SCALING SYSTEM</span></button>
-                        <button class="project-pill" data-project="4"><span>HACKINTERVIEWAI</span></button>
+                        <!-- Filled by script.js from the project cards -->
                     </div>
                 </div>
             </div>

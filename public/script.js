@@ -4,33 +4,6 @@
    ============================================================ */
 
 // ─────────────────────────────────────────
-// PROJECT DATA
-// ─────────────────────────────────────────
-const projectData = {
-    1: {
-        num: '001',
-        title: 'NEURONARRATOR',
-        desc: 'AI-powered assistive vision app for blind and visually impaired users. Uses real-time multimodal vision AI (Google Gemini) to describe surroundings, read currency denominations, and locate items via a voice-first, touch-first interface. Client-side face recognition via face-api.js, with speech, haptic, and spatial-audio feedback for hazard detection.',
-        tech: ['REACT', 'TYPESCRIPT', 'GEMINI VISION', 'FACE-API.JS', 'WEB SPEECH API', 'DEXIE.JS'],
-        github: '#'
-    },
-    3: {
-        num: '003',
-        title: 'INTELLIGENT CLOUD SCALING SYSTEM',
-        desc: 'Predictive auto-scaling system forecasting CPU utilization up to 5 minutes ahead, enabling proactive resource adjustment before demand spikes. Designed a 3-layer LSTM with an attention mechanism (128 hidden units, 24-step sequences) to learn temporal workload patterns from CPU, network, and business-context features. Built an event-driven AWS architecture using Lambda, S3, CloudWatch, EventBridge, API Gateway, and EC2 Auto Scaling. Applied MinMax normalization, early stopping, gradient clipping, and Adam optimization; achieved an R² of 0.94 and MAE of ~4.13% CPU.',
-        tech: ['PYTHON', 'PYTORCH', 'LSTM', 'AWS LAMBDA', 'AWS S3', 'CLOUDWATCH', 'EVENTBRIDGE', 'API GATEWAY', 'EC2 AUTO SCALING', 'DOCKER'],
-        github: '#'
-    },
-    4: {
-        num: '004',
-        title: 'HACKINTERVIEWAI',
-        desc: 'Built an AI-powered interview preparation platform supporting coding practice, resume analysis, mock interviews, and structured candidate feedback. Designed REST APIs for user workflows, interview sessions, dynamic question generation, and response evaluation, with AI services generating context-aware questions and personalized feedback from interview history.',
-        tech: ['PYTHON', 'FASTAPI', 'NODE.JS', 'EXPRESS.JS', 'MONGODB'],
-        github: '#'
-    }
-};
-
-// ─────────────────────────────────────────
 // DOM READY
 // ─────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
@@ -52,6 +25,28 @@ document.addEventListener('DOMContentLoaded', () => {
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     window.scrollTo(0, 0);
     lenis.scrollTo(0, { immediate: true });
+
+    // ── Scroll Helpers ────────────────────
+    // The fixed header is ~112px tall, so every in-page jump stops just below it.
+    const scrollToSection = (target, duration = 1.4) =>
+        lenis.scrollTo(target, { offset: -112, duration });
+
+    // The menu and the modal can each hold the lock; scrolling resumes once both let go.
+    // Lenis drives the scrolling, so it has to be stopped too — body overflow alone won't hold it.
+    const scrollLocks = new Set();
+    const lockScroll = owner => {
+        scrollLocks.add(owner);
+        lenis.stop();
+        document.body.style.overflow = 'hidden';
+    };
+    const unlockScroll = owner => {
+        scrollLocks.delete(owner);
+        if (scrollLocks.size) return;
+        lenis.start();
+        document.body.style.overflow = '';
+    };
+
+    buildProjectMarquee();
 
     // ── Page Loader ───────────────────────
     const loader = document.getElementById('loader');
@@ -125,14 +120,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const navOverlay = document.getElementById('nav-overlay');
     const navLinks = document.querySelectorAll('.nav-link');
 
-    const openNav = () => { navPanel.classList.add('active'); document.body.style.overflow = 'hidden'; };
-    const closeNav = () => { navPanel.classList.remove('active'); document.body.style.overflow = ''; };
+    const openNav = () => { navPanel.classList.add('active'); lockScroll('nav'); };
+    const closeNav = () => { navPanel.classList.remove('active'); unlockScroll('nav'); };
 
     if (menuToggle) menuToggle.addEventListener('click', openNav);
     if (navClose) navClose.addEventListener('click', closeNav);
     if (navOverlay) navOverlay.addEventListener('click', closeNav);
     navLinks.forEach(l => l.addEventListener('click', closeNav));
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNav(); });
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && navPanel.classList.contains('active')) closeNav();
+    });
 
     // ── Nav Link Stagger on Open ──────────
     const navItems = document.querySelectorAll('.nav-item');
@@ -151,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
         anchor.addEventListener('click', e => {
             e.preventDefault();
             const target = document.querySelector(anchor.getAttribute('href'));
-            if (target) lenis.scrollTo(target, { offset: -112, duration: 1.4 });
+            if (target) scrollToSection(target);
         });
     });
 
@@ -160,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (scrollIndicator) {
         scrollIndicator.addEventListener('click', () => {
             const about = document.getElementById('about');
-            if (about) lenis.scrollTo(about, { offset: -112, duration: 1.2 });
+            if (about) scrollToSection(about, 1.2);
         });
     }
 
@@ -205,24 +202,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalClose = document.querySelector('.modal-close');
     const modalOverlay = document.querySelector('.modal-overlay');
 
-    const openModal = (id) => {
-        const p = projectData[id];
-        if (!p || !modal) return;
-        if (modalNum) modalNum.textContent = p.num;
-        if (modalTitle) modalTitle.textContent = p.title;
-        if (modalDesc) modalDesc.textContent = p.desc;
-        if (modalTech) modalTech.innerHTML = p.tech.map(t => `<span>${t}</span>`).join('');
-        if (modalGithub) modalGithub.href = p.github;
+    // Everything the modal shows comes from the project's card.
+    const openModal = (card) => {
+        if (!card || !modal) return;
+        const details = card.querySelector('template.project-details').content;
+        if (modalNum) modalNum.textContent = card.querySelector('.project-num').textContent;
+        if (modalTitle) modalTitle.textContent = card.querySelector('.project-card-title').textContent;
+        if (modalDesc) modalDesc.textContent = details.querySelector('p').textContent;
+        if (modalTech) modalTech.replaceChildren(...[...details.querySelectorAll('li')].map(li => {
+            const tag = document.createElement('span');
+            tag.textContent = li.textContent;
+            return tag;
+        }));
+        if (modalGithub) modalGithub.href = card.querySelector('.project-link').getAttribute('href');
         modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
+        lockScroll('modal');
     };
     const closeModal = () => {
         if (modal) modal.classList.remove('active');
-        document.body.style.overflow = '';
+        unlockScroll('modal');
     };
 
-    document.querySelectorAll('.project-expand, .project-pill').forEach(el => {
-        el.addEventListener('click', () => openModal(el.dataset.project));
+    document.querySelectorAll('.project-expand').forEach(el => {
+        el.addEventListener('click', () => openModal(el.closest('.project-card')));
+    });
+    document.querySelectorAll('.project-pill').forEach(el => {
+        el.addEventListener('click', () =>
+            openModal(document.querySelector(`.project-card[data-project="${el.dataset.project}"]`)));
     });
     if (modalClose) modalClose.addEventListener('click', closeModal);
     if (modalOverlay) modalOverlay.addEventListener('click', closeModal);
@@ -377,4 +383,23 @@ function countUpHeroStats() {
         }
     });
     return tl;
+}
+
+// Fills the Focus-section marquee with one pill per project card. The set is repeated
+// 4x so it always overflows the viewport, then the whole run is doubled so the CSS
+// translateX(-50%) loop is seamless.
+function buildProjectMarquee() {
+    const track = document.querySelector('.projects-scroll-content');
+    if (!track) return;
+    const pills = [...document.querySelectorAll('.project-card[data-pill]')].map(card => {
+        const pill = document.createElement('button');
+        pill.className = 'project-pill';
+        pill.dataset.project = card.dataset.project;
+        const label = document.createElement('span');
+        label.textContent = card.dataset.pill;
+        pill.append(label);
+        return pill;
+    });
+    const half = Array.from({ length: 4 }, () => pills.map(p => p.cloneNode(true))).flat();
+    track.append(...half, ...half.map(p => p.cloneNode(true)));
 }
