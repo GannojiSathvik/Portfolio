@@ -191,6 +191,11 @@ About section's education info.
 
 ## Running and deploying
 
+- **Bump the `?v=` query** on the `style.css`, `mascot.js` and `script.js`
+  links in `index.html` whenever those files change. Safari kept serving
+  stale copies after deploys (the user saw an old layout), and the version
+  string forces a fresh download.
+
 - Local: `npm run dev` in this folder, then open
   `http://localhost:3000/index.html` (`/` just redirects there).
 - Deploy: GitHub repo `GannojiSathvik/Portfolio`. Work happens on `main`,
