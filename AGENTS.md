@@ -91,6 +91,9 @@ act out every mood with a caption, wave, and hop home
 (`window.robotBuddy.demo(el)`). The custom cursor dot hides over the robot
 (its colour-inverting blend turned the robot green), and the cursor dot
 and glow ball are centred on the pointer with `xPercent/yPercent: -50`.
+The glow (`#ball`) is a small 36px halo that hugs the dot — the user wants
+it kept, just cursor-sized, not the old 320px light. Demo captions fade
+on their own after ~1.4s.
 
 ## Wording/tone (flagged, not yet fixed)
 

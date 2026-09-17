@@ -558,8 +558,14 @@
 
         // ── Demo: hop next to the anchor and perform every mood ──
         let demoRunning = false;
-        const say = label => gsap.fromTo(p.caption, { opacity: 0, y: 6, xPercent: -50 },
-            { opacity: 1, y: 0, xPercent: -50, duration: 0.25, ease: 'power2.out', onStart: () => { p.caption.textContent = label; } });
+        // Each caption shows briefly, then fades on its own.
+        const say = label => {
+            gsap.killTweensOf(p.caption);
+            p.caption.textContent = label;
+            return gsap.timeline()
+                .fromTo(p.caption, { opacity: 0, y: 6, xPercent: -50 }, { opacity: 1, y: 0, duration: 0.25, ease: 'power2.out' })
+                .to(p.caption, { opacity: 0, y: -4, duration: 0.3, ease: 'power1.in' }, '+=1.4');
+        };
         const DEMO_STEPS = [
             ['happy', 'Happy', 1.6], ['excited', 'Excited!', 1.8], ['curious', 'Curious?', 2.2],
             ['surprised', 'Surprised!', 1.5], ['love', 'In love', 2], ['shy', 'Shy…', 2.2],

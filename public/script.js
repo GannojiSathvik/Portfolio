@@ -85,14 +85,14 @@ document.addEventListener('DOMContentLoaded', () => {
             cursorX(cx); cursorY(cy);
         }, { passive: true });
 
-        // Lag ball slightly behind cursor
+        // Halo follows the dot closely, with just a touch of lag
         const ballX = gsap.quickSetter(ball, 'x', 'px');
         const ballY = gsap.quickSetter(ball, 'y', 'px');
         gsap.ticker.add(() => {
             const dx = cx - bx, dy = cy - by;
             if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) return; // settled: skip the write
-            bx += dx * 0.08;
-            by += dy * 0.08;
+            bx += dx * 0.3;
+            by += dy * 0.3;
             ballX(bx); ballY(by);
         });
 

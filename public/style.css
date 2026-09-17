@@ -162,14 +162,15 @@ html.lenis body {
     will-change: transform;
 }
 
+/* A soft halo that hugs the cursor dot */
 #ball {
     position: fixed;
-    width: 320px;
-    height: 320px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(182, 111, 106, 0.14) 0%, transparent 65%);
+    background: radial-gradient(circle, rgba(255, 190, 180, 0.45) 0%, rgba(182, 111, 106, 0.22) 40%, transparent 70%);
     pointer-events: none;
-    z-index: 0;
+    z-index: 9997;
     top: 0;
     left: 0;
     /* No blend mode: blending a fixed layer re-composites the whole page on every scroll frame */
