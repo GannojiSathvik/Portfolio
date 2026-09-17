@@ -1972,12 +1972,13 @@ body.light-mode .icon-moon {
     font-size: 0.8rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    background: rgba(255, 255, 255, 0.03);
+    /* Solid fill so the circle's rays don't show through the text */
+    background: linear-gradient(rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)), var(--bg-primary);
     color: var(--text-secondary);
-    cursor: pointer;
     position: relative;
+    z-index: 2;
     overflow: hidden;
-    transition: var(--transition);
+    transition: border-color 0.35s var(--ease-smooth), color 0.35s var(--ease-smooth);
 }
 
 .side-pill:hover {
@@ -2971,7 +2972,7 @@ body.light-mode .footer-right {
     padding: 0;
     background: none;
     border: 0;
-    cursor: inherit; /* follow the page: hidden when the custom cursor is active */
+    cursor: pointer; /* the custom dot hides over the robot, so show the normal hand here */
     -webkit-tap-highlight-color: transparent;
 }
 

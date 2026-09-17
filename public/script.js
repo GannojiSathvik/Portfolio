@@ -95,7 +95,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Cursor scale on interactive elements
-        const hoverEls = document.querySelectorAll('a, button, .project-card, .project-pill, .filter-btn, .floating-sphere');
+        // The robot buddy is left out: the grown, colour-inverting dot turned it green.
+        const hoverEls = document.querySelectorAll('a, button:not(.robot-buddy), .project-card, .project-pill, .filter-btn, .floating-sphere');
+        const buddy = document.querySelector('.robot-buddy');
+        if (buddy) {
+            buddy.addEventListener('mouseenter', () => gsap.to(cursor, { opacity: 0, duration: 0.15 }));
+            buddy.addEventListener('mouseleave', () => gsap.to(cursor, { opacity: 1, duration: 0.15 }));
+        }
         hoverEls.forEach(el => {
             el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 4, duration: 0.25, ease: 'power4', overwrite: 'auto' }));
             el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, duration: 0.25, ease: 'power4', overwrite: 'auto' }));
