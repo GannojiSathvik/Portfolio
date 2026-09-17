@@ -360,50 +360,46 @@ function initHeroAnimation() {
     return tl;
 }
 
-// Rolls each hero stat up from 0 like an odometer; runs inside the hero timeline so
-// it starts only after the loader has gone, on every page load.
+// Counts each hero stat up from 0: blurred while it's moving fast, sharpening as it
+// slows, then a brief accent glow when it lands. Runs inside the hero timeline so it
+// starts only after the loader has gone, on every page load.
 function countUpHeroStats() {
     const tl = gsap.timeline();
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         return tl.set('.hero-stat .stat-plus', { opacity: 1 });
     }
+    const duration = 3;
     document.querySelectorAll('.stat-val[data-count]').forEach((el, i) => {
-        const columns = buildDigitRoll(el, parseInt(el.dataset.count, 10));
-        tl.to(columns, {
-            // land each column on its last cell
-            yPercent: (_, col) => -100 * (col.children.length - 1) / col.children.length,
-            duration: 1.8,
-            ease: 'expo.out'
-        }, i * 0.12);
+        const target = parseInt(el.dataset.count, 10);
         const plus = el.parentElement.querySelector('.stat-plus');
+        const counter = { value: 0 };
+        const start = i * 0.2;
+        // reserve the final width so the "+" doesn't shift as digits are added
+        el.style.minWidth = `${String(target).length}ch`;
+        el.textContent = 0;
+
+        tl.to(counter, {
+            value: target,
+            duration,
+            ease: 'power2.out',
+            onUpdate: () => {
+                const shown = Math.round(counter.value);
+                if (el.textContent !== String(shown)) el.textContent = shown;
+            }
+        }, start)
+            .fromTo(el, { filter: 'blur(6px)', opacity: 0.5 },
+                { filter: 'blur(0px)', opacity: 1, duration: duration * 0.8, ease: 'power2.out', clearProps: 'filter' }, start)
+            .to(el, {
+                textShadow: '0 0 18px rgba(0, 212, 255, 0.85)',
+                duration: 0.35, ease: 'power2.out',
+                yoyo: true, repeat: 1
+            }, start + duration - 0.25);
         if (plus) {
             tl.fromTo(plus, { opacity: 0, scale: 0.4 },
-                { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(3)' }, '>-1.1');
+                { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(3)' }, start + duration - 0.25);
         }
     });
     return tl;
-}
-
-// Replaces the number's text with one column per place value. Each column lists the
-// digit that place shows as the count goes 0 → target (e.g. 25: tens "", 1, 2; ones
-// 0…9, 0…9, 0…5), so rolling every column to its end reads as the number counting up.
-function buildDigitRoll(el, target) {
-    const places = String(target).length;
-    el.setAttribute('aria-label', target);
-    const columns = Array.from({ length: places }, (_, d) => {
-        const place = 10 ** (places - 1 - d);
-        const col = document.createElement('span');
-        col.className = 'stat-roll-col';
-        col.setAttribute('aria-hidden', 'true');
-        for (let k = 0; k <= Math.floor(target / place); k++) {
-            const cell = document.createElement('span');
-            cell.textContent = place > 1 && k === 0 ? '' : k % 10;
-            col.append(cell);
-        }
-        return col;
-    });
-    el.replaceChildren(...columns);
-    return columns;
 }
 
 // Fills the Focus-section marquee with one pill per project card. The set is repeated
