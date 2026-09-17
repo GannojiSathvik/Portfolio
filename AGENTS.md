@@ -112,6 +112,18 @@ About section's education info.
 
 ## Known conventions / gotchas
 
+- **Palette is monochrome (Grok-style), chosen by the user.** Greys plus
+  white as the only accent. Colors come from `:root` variables; accent
+  tints use `rgba(var(--accent-rgb), a)` so light mode (which flips
+  `--accent-rgb` to near-black) keeps working. Don't reintroduce neon
+  cyan, pink, red or purple tints — the user called them cheap. Colorful
+  assets (hero/contact videos, round-button bubble images) are shown in
+  greyscale via CSS `filter`.
+- **Cursor:** the normal system pointer is always visible. `#cursor` is a
+  thin ring that follows it and appears only while hovering links,
+  buttons, cards and pills. The old always-on white dot and big glow ball
+  were removed at the user's request.
+
 - The site uses **Lenis** for smooth scroll. Never re-add CSS
   `scroll-behavior: smooth` on `html` — it fights Lenis's own JS-driven
   easing and causes visible stutter.
