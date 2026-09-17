@@ -69,23 +69,41 @@ document.addEventListener('DOMContentLoaded', () => {
         heroIntro.play();
     }
 
-    // ── Hover Cursor Ring ──────────────────
-    // The normal pointer stays; a thin ring follows it and appears only over clickable things.
-    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    // ── Custom Cursor ──────────────────────
+    if (window.innerWidth > 768) {
         const cursor = document.getElementById('cursor');
-        gsap.set(cursor, { scale: 0.5 });
-        const cursorX = gsap.quickTo(cursor, 'x', { duration: 0.25, ease: 'power3.out' });
-        const cursorY = gsap.quickTo(cursor, 'y', { duration: 0.25, ease: 'power3.out' });
-        document.addEventListener('mousemove', e => { cursorX(e.clientX); cursorY(e.clientY); }, { passive: true });
+        const ball = document.getElementById('ball');
+        let cx = 0, cy = 0, bx = 0, by = 0;
 
+        // quickTo reuses one tween per axis instead of creating a new tween on every mousemove
+        const cursorX = gsap.quickTo(cursor, 'x', { duration: 0.1, ease: 'none' });
+        const cursorY = gsap.quickTo(cursor, 'y', { duration: 0.1, ease: 'none' });
+        document.addEventListener('mousemove', e => {
+            cx = e.clientX; cy = e.clientY;
+            cursorX(cx); cursorY(cy);
+        }, { passive: true });
+
+        // Lag ball slightly behind cursor
+        const ballX = gsap.quickSetter(ball, 'x', 'px');
+        const ballY = gsap.quickSetter(ball, 'y', 'px');
+        gsap.ticker.add(() => {
+            const dx = cx - bx, dy = cy - by;
+            if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) return; // settled: skip the write
+            bx += dx * 0.08;
+            by += dy * 0.08;
+            ballX(bx); ballY(by);
+        });
+
+        // Cursor scale on interactive elements
         const hoverEls = document.querySelectorAll('a, button, .project-card, .project-pill, .filter-btn, .floating-sphere');
         hoverEls.forEach(el => {
-            el.addEventListener('mouseenter', () => gsap.to(cursor, { opacity: 1, scale: 1, duration: 0.35, ease: 'power3.out', overwrite: 'auto' }));
-            el.addEventListener('mouseleave', () => gsap.to(cursor, { opacity: 0, scale: 0.5, duration: 0.25, ease: 'power2.in', overwrite: 'auto' }));
+            el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 4, duration: 0.25, ease: 'power4', overwrite: 'auto' }));
+            el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, duration: 0.25, ease: 'power4', overwrite: 'auto' }));
         });
     }
 
-    // ── Scroll Progress Bar + Header State ──
+    // ── Scroll Progress Bar ───────────────
+    // ── Header Scroll Effect ──────────────
     // Both read Lenis's own scroll values, so there's no layout read per frame.
     const progressBar = document.getElementById('scroll-progress');
     const header = document.getElementById('main-header');
@@ -150,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
             heroTitle.innerHTML = 'FULL-STACK<br>DEVELOPER';
         });
         heroTitle.addEventListener('mouseleave', () => {
-            gsap.to(heroTitle, { color: 'var(--text-primary)', duration: 0.3, clearProps: 'color' });
+            gsap.to(heroTitle, { color: '#ffffff', duration: 0.3 });
             heroTitle.innerHTML = 'GANNOJI<br>SATHVIK';
         });
     }
@@ -352,7 +370,6 @@ function countUpHeroStats() {
         return tl.set('.hero-stat .stat-plus', { opacity: 1 });
     }
     const duration = 3;
-    const accentRgb = getComputedStyle(document.body).getPropertyValue('--accent-rgb').trim() || '255, 255, 255';
     document.querySelectorAll('.stat-val[data-count]').forEach((el, i) => {
         const target = parseInt(el.dataset.count, 10);
         const plus = el.parentElement.querySelector('.stat-plus');
@@ -374,7 +391,7 @@ function countUpHeroStats() {
             .fromTo(el, { filter: 'blur(6px)', opacity: 0.5 },
                 { filter: 'blur(0px)', opacity: 1, duration: duration * 0.8, ease: 'power2.out', clearProps: 'filter' }, start)
             .to(el, {
-                textShadow: `0 0 18px rgba(${accentRgb}, 0.6)`,
+                textShadow: '0 0 18px rgba(0, 212, 255, 0.85)',
                 duration: 0.35, ease: 'power2.out',
                 yoyo: true, repeat: 1
             }, start + duration - 0.25);

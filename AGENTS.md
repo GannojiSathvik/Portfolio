@@ -128,19 +128,6 @@ About section's education info.
 
 ## Known conventions / gotchas
 
-- **Palette = Grok Bot page style, chosen by the user.** Calm grey/black
-  base with white text; tags, chips and pills each get a soft brand tint
-  (teal, violet, magenta, orange, blue, green — `--tint-*` in the
-  "GROK BOT–STYLE TINTS" block at the bottom of `style.css`). Tags cycle
-  tints by `nth-child`; each project has one tint shared by its card tag
-  and marquee pill. Accent highlights still use `rgba(var(--accent-rgb), a)`.
-  Don't bring back neon cyan / pink / maroon glows — the user called them
-  cheap. Colorful videos and button bubble images are shown in greyscale.
-- **Cursor:** the normal system pointer is always visible. `#cursor` is a
-  thin ring that follows it and appears only while hovering links,
-  buttons, cards and pills. The old always-on white dot and big glow ball
-  were removed at the user's request.
-
 - The site uses **Lenis** for smooth scroll. Never re-add CSS
   `scroll-behavior: smooth` on `html` — it fights Lenis's own JS-driven
   easing and causes visible stutter.
