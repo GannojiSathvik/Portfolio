@@ -12,11 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.registerPlugin(ScrollTrigger);
 
     // ── Lenis Smooth Scroll ──────────────
-    const lenis = new Lenis({
-        duration: 1.2,
-        easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smooth: true
-    });
+    // lerp follows the wheel continuously; a fixed duration made every scroll trail behind
+    const lenis = new Lenis({ lerp: 0.12, wheelMultiplier: 1 });
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add(time => lenis.raf(time * 1000));
     gsap.ticker.lagSmoothing(0);
@@ -87,10 +84,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { passive: true });
 
         // Lag ball slightly behind cursor
+        const ballX = gsap.quickSetter(ball, 'x', 'px');
+        const ballY = gsap.quickSetter(ball, 'y', 'px');
         gsap.ticker.add(() => {
-            bx += (cx - bx) * 0.08;
-            by += (cy - by) * 0.08;
-            gsap.set(ball, { x: bx, y: by });
+            const dx = cx - bx, dy = cy - by;
+            if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) return; // settled: skip the write
+            bx += dx * 0.08;
+            by += dy * 0.08;
+            ballX(bx); ballY(by);
         });
 
         // Cursor scale on interactive elements

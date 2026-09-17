@@ -78,6 +78,24 @@ img {
     max-width: 100%;
 }
 
+/* ======================== LENIS (recommended base styles) ======================== */
+html.lenis,
+html.lenis body {
+    height: auto;
+}
+
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
 /* ======================== PAGE LOADER ======================== */
 #loader {
     position: fixed;
@@ -154,7 +172,7 @@ img {
     z-index: 0;
     top: 0;
     left: 0;
-    mix-blend-mode: color-dodge;
+    /* No blend mode: blending a fixed layer re-composites the whole page on every scroll frame */
     /* No CSS transition — lerped via rAF in JS */
     will-change: transform;
 }
@@ -204,6 +222,7 @@ img {
         radial-gradient(ellipse 60% 40% at 80% 70%, var(--accent-red) 0%, transparent 50%);
     opacity: 0.4;
     animation: ambientShift 15s ease-in-out infinite alternate;
+    will-change: transform, opacity;
 }
 
 @keyframes ambientShift {
@@ -224,6 +243,9 @@ img {
     pointer-events: none;
     z-index: 1;
     opacity: 0.035;
+    /* Own layer + a small tile, so the noise is rasterized once instead of at full screen size */
+    will-change: transform;
+    background-size: 200px 200px;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -257,12 +279,12 @@ img {
     justify-content: space-between;
     align-items: center;
     z-index: 1000;
-    transition: background 0.3s ease, backdrop-filter 0.3s ease;
+    transition: background 0.3s ease;
 }
 
+/* Nearly opaque, so no backdrop blur: it re-blurred the page under the header on every scroll frame */
 .minimal-header.scrolled {
-    background: rgba(10, 10, 10, 0.92);
-    backdrop-filter: blur(20px);
+    background: rgba(10, 10, 10, 0.94);
 }
 
 .logo {
