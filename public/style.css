@@ -1392,7 +1392,7 @@ body.light-mode .icon-moon {
 .stagger-item {
     opacity: 0;
     transform: translateY(30px);
-    transition: opacity 0.8s var(--ease-expo), transform 0.8s var(--ease-expo);
+    transition: opacity 0.6s var(--ease-expo), transform 0.6s var(--ease-expo);
 }
 
 .stagger-item.in-view {
@@ -1480,13 +1480,29 @@ body.light-mode .icon-moon {
     padding: var(--section-padding) 0;
 }
 
-.playground-card {
-    max-width: 640px;
-    margin: 0 auto;
+/* Personal projects sit side by side, each card a column with its button at the bottom */
+.playground-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.75rem;
+    align-items: stretch;
 }
 
-.playground-card + .playground-card {
-    margin-top: 2rem;
+.playground-card {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+}
+
+.playground-card .playground-play {
+    margin-top: auto;
+    align-self: flex-start;
+}
+
+@media (max-width: 900px) {
+    .playground-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .playground-card-header {
@@ -1497,18 +1513,19 @@ body.light-mode .icon-moon {
 }
 
 .playground-card-title {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 700;
 }
 
 .playground-card-desc {
     color: var(--text-secondary);
+    font-size: 0.92rem;
     line-height: 1.6;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
 }
 
 .playground-rules {
-    margin-bottom: 1.75rem;
+    margin-bottom: 1.5rem;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     padding-top: 1.25rem;
 }
@@ -1516,7 +1533,7 @@ body.light-mode .icon-moon {
 .playground-rules summary {
     cursor: pointer;
     font-family: var(--font-display);
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -1557,19 +1574,19 @@ body.light-mode .icon-moon {
 }
 
 .playground-rule-head h4 {
-    font-size: 0.95rem;
+    font-size: 0.88rem;
     font-weight: 600;
 }
 
 .playground-rule p {
     color: var(--text-secondary);
-    font-size: 0.9rem;
+    font-size: 0.84rem;
     line-height: 1.55;
 }
 
 .rule-tag {
     flex-shrink: 0;
-    font-size: 0.68rem;
+    font-size: 0.62rem;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -1582,7 +1599,7 @@ body.light-mode .icon-moon {
 
 .rule-score {
     margin-top: 0.4rem;
-    font-size: 0.82rem !important;
+    font-size: 0.78rem !important;
     color: var(--accent-color) !important;
 }
 
@@ -1843,6 +1860,7 @@ body.light-mode .icon-moon {
     width: 100%;
     height: 100%;
     animation: ringRotate 8s linear infinite;
+    will-change: transform;
 }
 
 @keyframes ringRotate {
@@ -1954,6 +1972,7 @@ body.light-mode .icon-moon {
     margin: -6px;
     box-shadow: 0 0 20px var(--accent-color);
     animation: orbitDot 4s linear infinite;
+    will-change: transform;
 }
 
 @keyframes orbitDot {
@@ -2003,6 +2022,7 @@ body.light-mode .icon-moon {
     gap: 1.5rem;
     animation: pillsScroll 30s linear infinite;
     width: max-content;
+    will-change: transform;
 }
 
 @keyframes pillsScroll {
@@ -2987,7 +3007,7 @@ body.light-mode .footer-right {
     overflow: visible;
     transform-origin: 50% 100%;
     transition: transform 0.6s var(--ease-expo);
-    filter: drop-shadow(0 8px 18px rgba(136, 92, 245, 0.35));
+    filter: drop-shadow(0 8px 18px rgba(0, 212, 255, 0.22));
 }
 
 .robot-buddy .rb-shadow {
@@ -3001,7 +3021,7 @@ body.light-mode .footer-right {
 }
 
 .robot-buddy:focus-visible {
-    outline: 2px solid #885cf5;
+    outline: 2px solid var(--accent-color);
     outline-offset: 4px;
     border-radius: 50%;
 }
@@ -3038,4 +3058,14 @@ body.light-mode .robot-buddy .rb-shadow {
     white-space: nowrap;
     opacity: 0;
     pointer-events: none;
+}
+
+/* Focus section loops only run while it's on (or near) the screen */
+.focus-section:not(.is-active) :is(.gradient-ring, .orbit-dot, .projects-scroll-content) {
+    animation-play-state: paused;
+}
+
+/* Robot buddy's cyan features glow softly */
+.robot-buddy .rb-face {
+    filter: drop-shadow(0 0 2.5px rgba(0, 212, 255, 0.7));
 }
