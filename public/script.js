@@ -56,6 +56,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // ── Page Loader ───────────────────────
     const loader = document.getElementById('loader');
     const loaderFill = document.querySelector('.loader-fill');
+    // Build the hero entrance now (paused) so its starting state is applied while the
+    // loader still covers the page; otherwise the hero shows, vanishes, then fades back in.
+    const heroIntro = initHeroAnimation();
     if (loader) {
         gsap.to(loaderFill, {
             width: '100%', duration: 1.2, ease: 'power2.inOut',
@@ -65,13 +68,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     onComplete: () => {
                         loader.style.display = 'none';
                         document.body.classList.remove('loading');
-                        initHeroAnimation();
                     }
                 });
+                gsap.delayedCall(0.3, () => heroIntro.play());
             }
         });
     } else {
-        initHeroAnimation();
+        heroIntro.play();
     }
 
     // ── Custom Cursor ──────────────────────
@@ -173,18 +176,6 @@ document.addEventListener('DOMContentLoaded', () => {
             heroTitle.innerHTML = 'GANNOJI<br>SATHVIK';
         });
     }
-
-    // ── Hero Count-up Stats ───────────────
-    document.querySelectorAll('.stat-val[data-count]').forEach(el => {
-        const target = parseInt(el.dataset.count);
-        let current = 0;
-        const step = () => {
-            current++;
-            el.textContent = current;
-            if (current < target) requestAnimationFrame(step);
-        };
-        setTimeout(step, 1200);
-    });
 
     // ── Floating Sphere ───────────────────
     const sphere = document.getElementById('floating-sphere');
@@ -348,15 +339,42 @@ document.addEventListener('DOMContentLoaded', () => {
 // HERO ENTRANCE ANIMATION
 // ─────────────────────────────────────────
 function initHeroAnimation() {
-    const tl = gsap.timeline();
+    const tl = gsap.timeline({ paused: true });
     const ease = 'expo.out';
 
     tl.from('.hero-role-tag', { opacity: 0, y: 20, duration: 0.8, ease })
         .from('.hero-tagline', { opacity: 0, y: 30, duration: 1, ease }, '-=0.5')
-        .from('.hero-stat', { opacity: 0, y: 20, duration: 0.7, stagger: 0.12, ease }, '-=0.6')
+        .addLabel('stats', '-=0.6')
+        .from('.hero-stat', { opacity: 0, y: 20, duration: 0.7, stagger: 0.12, ease }, 'stats')
         .from('.hero-cta', { opacity: 0, y: 20, duration: 0.6, ease }, '-=0.4')
         .from('.hero-huge-title', { opacity: 0, y: 50, duration: 1.2, ease }, '-=0.9')
         .from('.hero-scroll-indicator', { opacity: 0, y: 20, duration: 0.6, ease }, '-=0.3')
         .from('.logo', { opacity: 0, x: -20, duration: 0.6, ease }, 0.2)
-        .from('.header-right', { opacity: 0, x: 20, duration: 0.6, ease }, 0.2);
+        .from('.header-right', { opacity: 0, x: 20, duration: 0.6, ease }, 0.2)
+        .add(countUpHeroStats(), 'stats');
+    return tl;
+}
+
+// Counts each hero stat up from 0; runs inside the hero timeline so it starts
+// only after the loader has gone, on every page load.
+function countUpHeroStats() {
+    const tl = gsap.timeline();
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('.stat-val[data-count]').forEach((el, i) => {
+        const target = parseInt(el.dataset.count, 10);
+        const plus = el.parentElement.querySelector('.stat-plus');
+        const counter = { value: 0 };
+        el.textContent = 0;
+        tl.to(counter, {
+            value: target,
+            duration: reduceMotion ? 0 : 1.8 + target * 0.02,
+            ease: 'power3.out',
+            onUpdate: () => { el.textContent = Math.round(counter.value); }
+        }, i * 0.15);
+        if (plus) {
+            tl.fromTo(plus, { opacity: 0, scale: 0.4 },
+                { opacity: 1, scale: 1, duration: reduceMotion ? 0 : 0.5, ease: 'back.out(3)' }, '>-0.2');
+        }
+    });
+    return tl;
 }
