@@ -49,13 +49,7 @@ not part of the site) unless asked to touch the Next.js layer specifically.
    ruleset hidden behind a native `<details>/<summary>` toggle so the section
    stays uncluttered until someone wants the rules. A second card, **Robot
    Buddy**, sits beside it (the two cards are a 2-column `.playground-grid`,
-   stacking under 900px). The section uses an **Apple-style** look (the
-   `.apple-style` block at the end of `style.css`): system font, semibold
-   tight title, zinc-400 copy, glassy rounded-3xl cards with a white/5
-   border, borderless white/5 pills, white rounded-full buttons that scale
-   on hover, and a soft diffused red glow behind consistent 1.5-stroke line
-   icons. The site is plain HTML/CSS — Tailwind values are mirrored in CSS,
-   not added as a dependency. The user mentioned
+   stacking under 900px). The user mentioned
    building a "Sphere" personal AI assistant (Grok-like) too, not yet
    described in enough detail to add — ask before inventing content for it.
 8. **Contact / "Let's Talk"** (`#contact`) — the last section. An earlier
@@ -154,11 +148,6 @@ About section's education info.
   tech-stack lists onto the card faces.
 
 ## Known conventions / gotchas
-
-- **Background glows are cool midnight blue / teal** (ambient glow, hero
-  light, shard and orb glows, cursor halo). The earlier maroon/red glow
-  looked "creepy" to the user — don't bring it back. The hero video is
-  shown fully greyscale for the same reason.
 
 - The site uses **Lenis** for smooth scroll. Never re-add CSS
   `scroll-behavior: smooth` on `html` — it fights Lenis's own JS-driven

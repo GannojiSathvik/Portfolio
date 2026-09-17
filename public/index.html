@@ -26,7 +26,7 @@
     <!-- Lenis Smooth Scroll -->
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 
-    <link rel="stylesheet" href="style.css?v=20260917-5">
+    <link rel="stylesheet" href="style.css?v=20260917-6">
 </head>
 
 <body class="loading">
@@ -679,7 +679,7 @@
         <!-- ══════════════════════════════
              PERSONAL PROJECTS SECTION
         ══════════════════════════════ -->
-        <section id="playground" class="full-page playground-section apple-style">
+        <section id="playground" class="full-page playground-section">
             <div class="container">
                 <div class="section-header stagger-item">
                     <span class="section-label">—— OFF THE CLOCK</span>
@@ -690,11 +690,11 @@
                     <div class="playground-card card-glass stagger-item">
                         <div class="project-card-img playground-card-visual" aria-hidden="true">
                             <div class="project-card-img-placeholder">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="11" cy="13" r="8" />
-                                    <circle cx="11" cy="13" r="4" />
-                                    <circle cx="11" cy="13" r="0.8" fill="currentColor" />
-                                    <path d="M11 13l9-9M16 4h4v4" />
+                                <svg viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <circle cx="28" cy="32" r="20" />
+                                    <circle cx="28" cy="32" r="12" />
+                                    <circle cx="28" cy="32" r="3.5" fill="var(--accent-color)" stroke="none" />
+                                    <path d="M29 31L50 10M44 10h6v6" stroke="var(--accent-color)" />
                                 </svg>
                             </div>
                             <div class="project-card-overlay"></div>
@@ -704,15 +704,17 @@
                                 <span class="project-cat-tag">GAME</span>
                                 <h3 class="playground-card-title">The 80% Game</h3>
                             </div>
-                            <p class="playground-card-desc">A real-time multiplayer guessing game — land closest to 80%
-                                of the average to survive. Server Actions and Neon Postgres keep rooms in sync, and
-                                AI bots with eight game-theory strategies fill empty seats.</p>
+                            <p class="playground-card-desc">Real-time multiplayer Beauty Contest game: each round
+                                players guess 0–100 and whoever lands closest to 80% of the average survives. Built on
+                                Next.js 16 (App Router + Server Actions) with Neon serverless Postgres through Drizzle
+                                ORM. Rooms stay in sync via a visibility-aware polling loop, and AI bot players with
+                                eight game-theory strategies (from naive to near-Nash) fill empty seats.</p>
                             <div class="project-tech-tags playground-tech">
-                                <span>Next.js 16</span><span>TypeScript</span><span>Neon Postgres</span><span>Drizzle ORM</span><span>Tailwind CSS</span>
+                                <span>Next.js 16</span><span>TypeScript</span><span>Server Actions</span><span>Neon Postgres</span><span>Drizzle ORM</span><span>Tailwind CSS</span><span>shadcn/ui</span><span>Vercel</span>
                             </div>
 
                             <details class="playground-rules">
-                                <summary>Full ruleset</summary>
+                                <summary>See the full ruleset</summary>
 
                                 <div class="playground-rule">
                                     <div class="playground-rule-head">
@@ -758,7 +760,7 @@
 
                             <a href="https://games-for-sloth.vercel.app" target="_blank" rel="noopener"
                                 class="cta-button playground-play">
-                                <span>Play the Game</span>
+                                <span>PLAY THE GAME</span>
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M7 17L17 7M17 7H9M17 7v8" />
                                 </svg>
@@ -769,10 +771,11 @@
                     <div class="playground-card card-glass stagger-item">
                         <div class="project-card-img playground-card-visual" aria-hidden="true">
                             <div class="project-card-img-placeholder">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="12" cy="12.5" r="8.5" />
-                                    <path d="M9 11v1.5M15 11v1.5" />
-                                    <path d="M9.5 15.5q2.5 2 5 0" />
+                                <svg viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <circle cx="30" cy="31" r="21" />
+                                    <ellipse cx="23" cy="28" rx="2.8" ry="4" fill="var(--accent-color)" stroke="none" />
+                                    <ellipse cx="37" cy="28" rx="2.8" ry="4" fill="var(--accent-color)" stroke="none" />
+                                    <path d="M24 38q6 5 12 0" stroke="var(--accent-color)" stroke-linecap="round" />
                                 </svg>
                             </div>
                             <div class="project-card-overlay"></div>
@@ -782,11 +785,13 @@
                                 <span class="project-cat-tag">INTERACTIVE</span>
                                 <h3 class="playground-card-title">Robot Buddy</h3>
                             </div>
-                            <p class="playground-card-desc">The robot in the corner of this site. Generated as inline SVG
-                                and animated with GSAP, it runs a priority-based state machine with ten expressions
-                                that react to clicks, the cursor and scrolling.</p>
+                            <p class="playground-card-desc">A lightweight mascot engine in vanilla JavaScript — the
+                                robot in the corner of this site. The whole character is generated as inline SVG at
+                                runtime and animated with GSAP timelines, driven by a priority-based state machine
+                                with ten expressions. It reacts to clicks, cursor position, scroll velocity and
+                                section visibility, and can be dropped into any site with one script tag.</p>
                             <div class="project-tech-tags playground-tech">
-                                <span>JavaScript</span><span>SVG</span><span>GSAP</span><span>State Machine</span>
+                                <span>JavaScript</span><span>SVG</span><span>GSAP</span><span>State Machine</span><span>IntersectionObserver</span><span>CSS</span>
                             </div>
 
                             <details class="playground-rules">
@@ -826,7 +831,7 @@
                             </details>
 
                             <button type="button" class="cta-button playground-play" data-robot-demo>
-                                <span>Watch the Demo</span>
+                                <span>WATCH THE DEMO</span>
                                 <svg viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M8 5.5v13l11-6.5z" />
                                 </svg>
@@ -924,8 +929,8 @@
         <p class="footer-right">BY HUMANS. FOR THE FUTURE.</p>
     </footer>
 
-    <script src="mascot.js?v=20260917-5"></script>
-    <script src="script.js?v=20260917-5"></script>
+    <script src="mascot.js?v=20260917-6"></script>
+    <script src="script.js?v=20260917-6"></script>
 </body>
 
 </html>
