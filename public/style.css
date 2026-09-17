@@ -1484,6 +1484,10 @@ body.light-mode .icon-moon {
     margin: 0 auto;
 }
 
+.playground-card + .playground-card {
+    margin-top: 2rem;
+}
+
 .playground-card-header {
     display: flex;
     align-items: center;
@@ -3012,4 +3016,25 @@ body.light-mode .robot-buddy .rb-shadow {
         right: 14px;
         bottom: 14px;
     }
+}
+
+/* Caption shown above the robot during the demo */
+.robot-buddy .rb-caption {
+    position: absolute;
+    left: 50%;
+    bottom: 100%;
+    margin-bottom: 22px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(18, 18, 22, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #fff;
+    font-family: var(--font-display, sans-serif);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
 }

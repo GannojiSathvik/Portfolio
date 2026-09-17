@@ -10,6 +10,8 @@
    shy, love. Triggers are wired in initMascot() at the bottom.
    Every so often it also plays on its own: roams around the screen,
    peeks up the edge, spins, or rides along while the page scrolls.
+   Any element with [data-robot-demo] plays a showcase of every mood when
+   clicked (also available as window.robotBuddy.demo(anchorElement)).
    ============================================================ */
 
 (() => {
@@ -56,13 +58,17 @@
 
         const svg = el('svg', { viewBox: '0 0 140 150', 'aria-hidden': 'true' });
         button.appendChild(svg);
+        const caption = document.createElement('span');
+        caption.className = 'rb-caption';
+        caption.setAttribute('aria-hidden', 'true');
+        button.appendChild(caption);
 
         const defs = el('defs', {}, svg);
         const grad = el('radialGradient', { id: 'rb-shade', cx: '38%', cy: '30%', r: '75%' }, defs);
         el('stop', { offset: '0%', 'stop-color': '#a888ff' }, grad);
         el('stop', { offset: '100%', 'stop-color': '#6a3fe0' }, grad);
 
-        const parts = {};
+        const parts = { caption };
         parts.shadow = el('ellipse', { class: 'rb-shadow', cx: 70, cy: 140, rx: 30, ry: 5 }, svg);
         // Breathing lives on its own wrapper so it never fights the body's reactions.
         parts.breath = el('g', { class: 'rb-breath' }, svg);
@@ -549,6 +555,62 @@
             });
         }
         if (!reduce) gsap.delayedCall(6, schedulePlay);
+
+        // ── Demo: hop next to the anchor and perform every mood ──
+        let demoRunning = false;
+        const say = label => gsap.fromTo(p.caption, { opacity: 0, y: 6, xPercent: -50 },
+            { opacity: 1, y: 0, xPercent: -50, duration: 0.25, ease: 'power2.out', onStart: () => { p.caption.textContent = label; } });
+        const DEMO_STEPS = [
+            ['happy', 'Happy', 1.6], ['excited', 'Excited!', 1.8], ['curious', 'Curious?', 2.2],
+            ['surprised', 'Surprised!', 1.5], ['love', 'In love', 2], ['shy', 'Shy…', 2.2],
+            ['sad', 'Sad', 2.6], ['angry', 'Angry 💢', 2.4],
+        ];
+
+        function demo(anchor) {
+            if (demoRunning) return;
+            demoRunning = true;
+            roaming = true;
+            wake();
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    demoRunning = false;
+                    roaming = false;
+                    gsap.to(p.caption, { opacity: 0, duration: 0.2 });
+                    setFace('idle');
+                    resetIdle();
+                },
+            });
+
+            // Travel next to the button that started the demo.
+            let tx = 0, ty = 0;
+            const x0 = gsap.getProperty(button, 'x'), y0 = gsap.getProperty(button, 'y');
+            if (!reduce && anchor) {
+                const r = button.getBoundingClientRect();
+                const a = anchor.getBoundingClientRect();
+                const { minX, minY } = limits();
+                tx = gsap.utils.clamp(minX, 0, a.right + 28 - (r.left - x0));
+                // The drawn body sits in the lower part of its box, so aim a little higher.
+                ty = gsap.utils.clamp(minY, 0, a.top + a.height / 2 - r.height * 0.62 - (r.top - y0));
+                tl.call(() => setFace('excited')).add(hop(x0, y0, tx, ty));
+            }
+
+            DEMO_STEPS.forEach(([name, label, hold]) => {
+                tl.call(() => { busyUntil = 0; say(label); express(name); })
+                    .to({}, { duration: hold });
+            });
+            tl.call(() => { say('Sleepy'); mood = 'sleepy'; setFace('sleepy'); })
+                .fromTo(p.zzz, { opacity: 0, y: 4 }, { opacity: 1, y: 0, duration: 0.6, ease: 'sine.out' })
+                .to(p.zzz, { opacity: 0, y: -6, duration: 0.6, ease: 'sine.in' }, '+=0.9')
+                .call(() => { mood = 'idle'; busyUntil = 0; say('Bye!'); express('excited', { withWave: true }); })
+                .to({}, { duration: 2.2 });
+            if (!reduce && anchor) tl.add(hop(tx, ty, 0, 0));
+            else if (x0 || y0) tl.to(button, { x: 0, y: 0, duration: 0.6 });
+        }
+
+        window.robotBuddy = { demo };
+        document.querySelectorAll('[data-robot-demo]').forEach(trigger => {
+            trigger.addEventListener('click', () => demo(trigger));
+        });
 
         // ── Entrance: drops in after the loader and wakes up ──
         setFace('sleepy');
