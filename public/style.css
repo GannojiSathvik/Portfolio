@@ -3024,7 +3024,7 @@ body.light-mode .footer-right {
     overflow: visible;
     transform-origin: 50% 100%;
     transition: transform 0.6s var(--ease-expo);
-    filter: drop-shadow(0 8px 18px rgba(0, 212, 255, 0.22));
+    filter: drop-shadow(0 8px 18px rgba(136, 92, 245, 0.35));
 }
 
 .robot-buddy .rb-shadow {
@@ -3038,7 +3038,7 @@ body.light-mode .footer-right {
 }
 
 .robot-buddy:focus-visible {
-    outline: 2px solid var(--accent-color);
+    outline: 2px solid #885cf5;
     outline-offset: 4px;
     border-radius: 50%;
 }
@@ -3080,9 +3080,4 @@ body.light-mode .robot-buddy .rb-shadow {
 /* Focus section loops only run while it's on (or near) the screen */
 .focus-section:not(.is-active) :is(.gradient-ring, .orbit-dot, .projects-scroll-content) {
     animation-play-state: paused;
-}
-
-/* Robot buddy's cyan features glow softly */
-.robot-buddy .rb-face {
-    filter: drop-shadow(0 0 2.5px rgba(0, 212, 255, 0.7));
 }

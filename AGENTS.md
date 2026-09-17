@@ -149,8 +149,10 @@ About section's education info.
 
 ## Known conventions / gotchas
 
-- **Robot sphere: dark body with cyan features** (the site-matching look).
-  A red sphere was tried and the user asked to go back to normal. An
+- **Robot sphere keeps its original purple** (`#a888ff` → `#6a3fe0` body,
+  dark `#0b0b10` eyes/mouth/brows, violet drop-shadow). A site-matching
+  graphite/cyan version and a red version were both tried and the user
+  asked to go back to the first colours. An
   Apple-style restyle of Personal Projects and a cool-blue background glow
   were also tried and reverted — don't change site-wide colours unless asked.
 
