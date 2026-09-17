@@ -149,10 +149,10 @@ About section's education info.
 
 ## Known conventions / gotchas
 
-- **Only the robot sphere is red.** The user asked for the *sphere* to be
-  reddish with the rest of the site left exactly as it was; an Apple-style
-  restyle of Personal Projects and a cool-blue background glow were both
-  tried and reverted. Don't change site-wide colours unless asked.
+- **Robot sphere: dark body with cyan features** (the site-matching look).
+  A red sphere was tried and the user asked to go back to normal. An
+  Apple-style restyle of Personal Projects and a cool-blue background glow
+  were also tried and reverted — don't change site-wide colours unless asked.
 
 - The site uses **Lenis** for smooth scroll. Never re-add CSS
   `scroll-behavior: smooth` on `html` — it fights Lenis's own JS-driven

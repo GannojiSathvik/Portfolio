@@ -15,7 +15,7 @@
 
 (() => {
     const SVG_NS = 'http://www.w3.org/2000/svg';
-    const INK = '#ffe7e4'; // eyes, mouth and brows: warm off-white on the red body
+    const INK = '#7fe9ff'; // eyes, mouth and brows glow in the site's cyan
 
     // Mouth line shapes all share one path structure so GSAP can morph between them.
     const MOUTH = {
@@ -65,9 +65,9 @@
 
         const defs = el('defs', {}, svg);
         const grad = el('radialGradient', { id: 'rb-shade', cx: '38%', cy: '30%', r: '75%' }, defs);
-        // Reddish glossy sphere.
-        el('stop', { offset: '0%', 'stop-color': '#e0555c' }, grad);
-        el('stop', { offset: '100%', 'stop-color': '#7a1220' }, grad);
+        // Site palette: graphite glass body, cyan glow like the site's accent.
+        el('stop', { offset: '0%', 'stop-color': '#3b3f4d' }, grad);
+        el('stop', { offset: '100%', 'stop-color': '#0c0d12' }, grad);
 
         const parts = { caption };
         parts.shadow = el('ellipse', { class: 'rb-shadow', cx: 70, cy: 140, rx: 30, ry: 5 }, svg);
@@ -80,16 +80,16 @@
         el('rect', { x: 108, y: 84, width: 22, height: 11, rx: 5.5, fill: 'url(#rb-shade)' }, parts.arm);
 
         el('circle', { cx: 70, cy: 86, r: 46, fill: 'url(#rb-shade)' }, parts.body);
-        el('circle', { cx: 70, cy: 86, r: 45.2, fill: 'none', stroke: 'rgba(255, 170, 165, 0.4)', 'stroke-width': 1.6 }, parts.body);
-        parts.flush = el('circle', { cx: 70, cy: 86, r: 46, fill: '#8f0c18', opacity: 0 }, parts.body);
+        el('circle', { cx: 70, cy: 86, r: 45.2, fill: 'none', stroke: 'rgba(0, 212, 255, 0.35)', 'stroke-width': 1.6 }, parts.body);
+        parts.flush = el('circle', { cx: 70, cy: 86, r: 46, fill: '#ea4045', opacity: 0 }, parts.body);
         el('ellipse', { cx: 54, cy: 62, rx: 14, ry: 7, fill: '#ffffff', opacity: 0.12, transform: 'rotate(-25 54 62)' }, parts.body);
 
         const face = el('g', { class: 'rb-face' }, parts.body);
         parts.face = face;
 
         parts.blush = el('g', { opacity: 0.35 }, face);
-        el('ellipse', { cx: 45, cy: 96, rx: 7, ry: 3.5, fill: '#ff9aa6', opacity: 0.85 }, parts.blush);
-        el('ellipse', { cx: 95, cy: 96, rx: 7, ry: 3.5, fill: '#ff9aa6', opacity: 0.85 }, parts.blush);
+        el('ellipse', { cx: 45, cy: 96, rx: 7, ry: 3.5, fill: '#eb4699', opacity: 0.8 }, parts.blush);
+        el('ellipse', { cx: 95, cy: 96, rx: 7, ry: 3.5, fill: '#eb4699', opacity: 0.8 }, parts.blush);
 
         // Eye sets — only one is visible at a time.
         parts.eyes = el('g', {}, face);
@@ -114,8 +114,8 @@
         el('path', { d: 'M79 82 Q86 87 93 82', ...stroke }, parts.eyeClosed);
         parts.eyeHeart = el('g', { opacity: 0 }, parts.eyes);
         const heart = 'M0 3 C0 -1 -6 -2 -6 2 C-6 5 -2 7 0 10 C2 7 6 5 6 2 C6 -2 0 -1 0 3 Z';
-        el('path', { d: heart, fill: '#ff6b81', transform: 'translate(54 75) scale(1.15)' }, parts.eyeHeart);
-        el('path', { d: heart, fill: '#ff6b81', transform: 'translate(86 75) scale(1.15)' }, parts.eyeHeart);
+        el('path', { d: heart, fill: '#eb4699', transform: 'translate(54 75) scale(1.15)' }, parts.eyeHeart);
+        el('path', { d: heart, fill: '#eb4699', transform: 'translate(86 75) scale(1.15)' }, parts.eyeHeart);
 
         // Cartoon brows: inner ends down for angry, up for sad.
         const brow = { ...stroke, 'stroke-width': 3.5 };
@@ -156,7 +156,7 @@
         });
         parts.tears = [[50, 90], [90, 90]].map(([x, y]) => el('path', { d: 'M0 0 Q-4 7 0 10 Q4 7 0 0 Z', fill: '#7fc8ff', opacity: 0 }, placed(x, y)));
         parts.sweat = el('path', { d: 'M110 52 Q104 62 110 66 Q116 62 110 52 Z', fill: '#7fc8ff', opacity: 0 }, svg);
-        parts.hearts = [0, 1].map(i => el('path', { d: heart, fill: '#ff6b81', opacity: 0 }, placed(100 + i * 16, 40 - i * 8)));
+        parts.hearts = [0, 1].map(i => el('path', { d: heart, fill: '#eb4699', opacity: 0 }, placed(100 + i * 16, 40 - i * 8)));
         const star = 'M0 -7 L1.8 -1.8 L7 0 L1.8 1.8 L0 7 L-1.8 1.8 L-7 0 L-1.8 -1.8 Z';
         parts.sparkles = [[20, 44], [120, 50]].map(([x, y]) => el('path', { d: star, fill: '#f19d38', opacity: 0 }, placed(x, y)));
 
