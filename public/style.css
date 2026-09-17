@@ -13,7 +13,7 @@
     --text-muted: rgba(255, 255, 255, 0.35);
     --accent-color: #00d4ff;
     --accent-glow: rgba(0, 212, 255, 0.3);
-    --accent-red: rgba(180, 60, 80, 0.6);
+    --accent-red: rgba(20, 110, 170, 0.5); /* background glow: cool blue, was maroon */
     --accent-ai: rgba(255, 80, 120, 0.8);
     --accent-cloud: rgba(0, 212, 255, 0.8);
     --font-display: 'Outfit', sans-serif;
@@ -32,7 +32,7 @@ body.light-mode {
     --text-primary: #0a0a0a;
     --text-secondary: rgba(0, 0, 0, 0.6);
     --text-muted: rgba(0, 0, 0, 0.35);
-    --accent-red: rgba(180, 60, 80, 0.3);
+    --accent-red: rgba(20, 110, 170, 0.18);
 }
 
 /* ======================== RESET & BASE ======================== */
@@ -168,7 +168,7 @@ html.lenis body {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(255, 190, 180, 0.45) 0%, rgba(182, 111, 106, 0.22) 40%, transparent 70%);
+    background: radial-gradient(circle, rgba(170, 235, 255, 0.4) 0%, rgba(0, 170, 220, 0.18) 40%, transparent 70%);
     pointer-events: none;
     z-index: 9997;
     top: 0;
@@ -219,7 +219,7 @@ html.lenis body {
     pointer-events: none;
     z-index: 0;
     background:
-        radial-gradient(ellipse 80% 50% at 50% 30%, rgba(139, 69, 89, 0.22) 0%, transparent 50%),
+        radial-gradient(ellipse 80% 50% at 50% 30%, rgba(40, 70, 140, 0.22) 0%, transparent 50%),
         radial-gradient(ellipse 60% 40% at 80% 70%, var(--accent-red) 0%, transparent 50%);
     opacity: 0.4;
     animation: ambientShift 15s ease-in-out infinite alternate;
@@ -586,13 +586,13 @@ body.light-mode .icon-moon {
     object-fit: cover;
     opacity: 0.22;
     scale: 1.1;
-    filter: grayscale(0.5) contrast(1.1) brightness(0.6);
+    filter: grayscale(1) contrast(1.1) brightness(0.6);
 }
 
 .video-overlay {
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at center, rgba(50, 10, 20, 0.25) 0%, rgba(5, 5, 5, 0.92) 72%, #000 100%);
+    background: radial-gradient(circle at center, rgba(10, 30, 55, 0.25) 0%, rgba(5, 5, 5, 0.92) 72%, #000 100%);
     z-index: 1;
 }
 
@@ -609,7 +609,7 @@ body.light-mode .icon-moon {
     position: absolute;
     background: linear-gradient(135deg, rgba(30, 30, 35, 0.9), rgba(5, 5, 10, 1));
     border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 60px rgba(180, 50, 70, 0.07);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 60px rgba(0, 140, 200, 0.07);
     animation: floatShard 20s ease-in-out infinite;
 }
 
@@ -765,7 +765,7 @@ body.light-mode .icon-moon {
     right: -10%;
     width: 60%;
     height: 80%;
-    background: radial-gradient(ellipse at center, rgba(180, 50, 70, 0.28) 0%, rgba(120, 30, 50, 0.12) 30%, transparent 70%);
+    background: radial-gradient(ellipse at center, rgba(20, 110, 170, 0.26) 0%, rgba(30, 60, 120, 0.12) 30%, transparent 70%);
     filter: blur(60px);
     pointer-events: none;
     z-index: 2;
@@ -1046,7 +1046,7 @@ body.light-mode .icon-moon {
 .orb-glow {
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle, rgba(180, 80, 100, 0.4) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(30, 120, 190, 0.35) 0%, transparent 70%);
     border-radius: 50%;
     animation: orbFloat 6s ease-in-out infinite, orbPulse 3s ease-in-out infinite;
 }

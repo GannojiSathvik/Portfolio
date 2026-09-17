@@ -149,6 +149,11 @@ About section's education info.
 
 ## Known conventions / gotchas
 
+- **Background glows are cool midnight blue / teal** (ambient glow, hero
+  light, shard and orb glows, cursor halo). The earlier maroon/red glow
+  looked "creepy" to the user — don't bring it back. The hero video is
+  shown fully greyscale for the same reason.
+
 - The site uses **Lenis** for smooth scroll. Never re-add CSS
   `scroll-behavior: smooth` on `html` — it fights Lenis's own JS-driven
   easing and causes visible stutter.
