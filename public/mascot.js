@@ -4,7 +4,8 @@
    New Steel Troops—Winged Angels": the body stays a simple sphere and
    the eyes, mouth, hops and tilts do the acting.
 
-   Self-contained: builds its own markup, needs GSAP, touches nothing else.
+   Self-contained: builds its own markup, loads GSAP if the page lacks it,
+   and touches nothing else. Pair it with the ROBOT BUDDY block in style.css.
    Moods: idle, happy, excited, curious, surprised, sleepy, sad, angry,
    shy, love. Triggers are wired in initMascot() at the bottom.
    ============================================================ */
@@ -440,5 +441,15 @@
             .call(() => express('happy'), null, '+=1.3');
     }
 
-    document.addEventListener('DOMContentLoaded', initMascot);
+    // Works on any site: uses the page's GSAP if present, otherwise loads it first.
+    function start() {
+        if (window.gsap) return initMascot();
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js';
+        script.onload = initMascot;
+        document.head.appendChild(script);
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+    else start();
 })();
