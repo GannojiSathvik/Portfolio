@@ -45,7 +45,6 @@ body.light-mode {
 }
 
 html {
-    scroll-behavior: smooth;
     font-size: 16px;
 }
 
@@ -234,6 +233,7 @@ img {
     justify-content: center;
     position: relative;
     overflow: hidden;
+    scroll-margin-top: 112px;
 }
 
 .container {
@@ -1435,6 +1435,116 @@ body.light-mode .icon-moon {
     padding: var(--section-padding) 0;
 }
 
+.focus-section {
+    padding: var(--section-padding) 0;
+}
+
+.playground-section {
+    padding: var(--section-padding) 0;
+}
+
+.playground-card {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.playground-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.playground-card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.playground-card-desc {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.playground-rules {
+    margin-bottom: 1.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 1.25rem;
+}
+
+.playground-rules summary {
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-color);
+    list-style: none;
+}
+
+.playground-rules summary::-webkit-details-marker {
+    display: none;
+}
+
+.playground-rules summary::after {
+    content: '+';
+    float: right;
+    font-size: 1.1rem;
+}
+
+.playground-rules[open] summary::after {
+    content: '−';
+}
+
+.playground-rule {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.playground-rule:first-of-type {
+    margin-top: 1.5rem;
+}
+
+.playground-rule-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.playground-rule-head h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.playground-rule p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.55;
+}
+
+.rule-tag {
+    flex-shrink: 0;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 2em;
+    padding: 0.25rem 0.75rem;
+}
+
+.rule-score {
+    margin-top: 0.4rem;
+    font-size: 0.82rem !important;
+    color: var(--accent-color) !important;
+}
+
 .projects-main-title {
     font-size: clamp(2.5rem, 5vw, 4rem);
     line-height: 1.05;
@@ -2156,7 +2266,7 @@ body.light-mode .icon-moon {
     position: absolute;
     inset: 0;
     z-index: 1;
-    background: linear-gradient(160deg, rgba(8, 6, 18, 0.94), rgba(4, 3, 12, 0.96));
+    background: linear-gradient(160deg, rgba(10, 10, 10, 0.94), rgba(15, 15, 15, 0.96));
 }
 
 .tech-grid-bg {
@@ -2199,8 +2309,9 @@ body.light-mode .icon-moon {
 
 .contact-info {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.25rem;
     margin-bottom: 3rem;
 }
 
@@ -2357,7 +2468,7 @@ body.light-mode .icon-moon {
 
 .footer-content {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr auto;
     gap: 3rem;
     margin-bottom: 3rem;
 }
@@ -2782,4 +2893,51 @@ body.light-mode #ball {
 }
 .form-only-section .section-header {
     margin-bottom: 2rem;
+}
+
+/* ============================================================
+   COPYRIGHT FOOTER
+   ============================================================ */
+.copyright-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    padding: 1.75rem 3rem 2rem;
+    background: var(--bg-primary);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 400;
+}
+
+@media (max-width: 768px) {
+    .copyright-footer {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem 1.5rem 2rem;
+    }
+}
+
+.footer-left {
+    color: #6b7280;
+    margin: 0;
+    letter-spacing: 0.02em;
+}
+
+.footer-right {
+    color: #6b7280;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+}
+
+body.light-mode .copyright-footer {
+    border-top-color: rgba(0, 0, 0, 0.08);
+}
+
+body.light-mode .footer-left,
+body.light-mode .footer-right {
+    color: #9ca3af;
 }
