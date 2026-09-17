@@ -1,8 +1,7 @@
 /* ============================================================
    ROBOT BUDDY — a small round robot in the corner that shows feelings.
-   Inspired by Pippo, the round robot from "Doraemon: Nobita and the
-   New Steel Troops—Winged Angels": the body stays a simple sphere and
-   the eyes, mouth, hops and tilts do the acting.
+   The body stays a simple sphere; the eyes, mouth, hops and tilts do the
+   acting.
 
    Self-contained: builds its own markup, loads GSAP if the page lacks it,
    and touches nothing else. Pair it with the ROBOT BUDDY block in style.css.
